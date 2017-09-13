@@ -125,10 +125,8 @@ a
 
 
   .work
-
     line-height: 1.1
-    //top: 75px
-    justify-content: initial
+    justify-content: center
 
     .period-schedule
       line-height: 30px
