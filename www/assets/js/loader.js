@@ -118,7 +118,7 @@ $( document ).ready(function() {
 			var fs = CordovaPromiseFS({
 			  persistent: true, 
 			  storageSize: 800*1024*1024, // storage size in bytes, default 800MB
-			  concurrency: 3 // how many concurrent uploads/downloads?
+			  concurrency: 3, // how many concurrent uploads/downloads?
 			  Promise: require('promiscuous') // Your favorite Promise/A+ library!
 			});
 
