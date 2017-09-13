@@ -98,76 +98,22 @@ $( document ).ready(function() {
 		  })
 		}
 
-		dowanloadDatabase = function(database) {
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', 'http://cordova.apache.org/static/img/cordova_bot.png', true);
-			xhr.responseType = 'blob';
-
-			xhr.onload = function() {
-			  if (this.status == 200) {
-					alert('status 200');
-					var blob = new Blob([this.response], { type: 'image/png' });
-
-
-					saveFile(cordova.file.dataDirectory, blob, "testerodrigo.png");
+		dowanloadDatabase = function(data, database) {
+			cordova.file.writeTextToFile({
+				 text:  data[database],
+				 path: cordova.file.externalDataDirectory,
+				 fileName: 'rodrigo-agenda-' + database + '.json',
+				 append: false
+			  },
+			  {
+				 success: function(file) {
+					alert("Download concluido: " + file.nativeURL)
+				 },
+				 error: function(error) {
+					alert('Erro no download: ' + error)
+				 }
 			  }
-			};
-			xhr.send();
-		}
-
-		saveFile = function (dirEntry, fileData, fileName) {
-			alert('direntry ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
-			window.resolveLocalFileSystemURL(dirEntry, function(dir) {
-				  alert("got main dir", dir);
-				  dir.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
-					  alert('sucesso parcial');
-					  writeFile(fileEntry, fileData, false);
-				 }, function(e) {
-					alert('error ' + e)
-				 });
-			 });
-
-			 
-		}
-
-      writeFile = function (fileEntry, dataObj, isAppend) {
-		    alert('file entry ' + fileEntry + ' data ' + dataObj + ' ap' + isAppend);
-			 fileEntry.createWriter(function (fileWriter) {
-				  fileWriter.onwriteend = function() {
-				      alert("Successful file write..." + fileEntry);
-
-				      if (dataObj.type == "image/png") {
-				          readBinaryFile(fileEntry);
-				      }
-				      else {
-				          readFile(fileEntry);
-				      }
-				  };
-
-				  fileWriter.onerror = function(e) {
-				      alert("Failed file write: " + e.toString());
-				  };
-				  fileWriter.write(dataObj);
-			 });
-		}
-
-		readBinaryFile = function (fileEntry) {
-			 fileEntry.file(function (file) {
-				  var reader = new FileReader();
-
-				  reader.onloadend = function() {
-				      alert("Successful file write: " + this.result);
-				      alert(fileEntry.fullPath + ": " + this.result);
-
-				      var blob = new Blob([new Uint8Array(this.result)], { type: "image/png" });
-						var elem = document.getElementById('logo');
-						elem.src = window.URL.createObjectURL(blob);
-						alert('blob' + blob);
-				  };
-
-				  reader.readAsArrayBuffer(file);
-
-			 }, function() {alert('error in show image')});
+			);
 		}
 
 		loadDatabase = function(database, callback) {
@@ -175,29 +121,7 @@ $( document ).ready(function() {
 			function(data) 
 			{
 				callback(data[database]);
-	
-				if(database === 'customers' ) // testando
-				{
-					//	dowanloadDatabase(database);
-	
-					cordova.file.writeTextToFile({
-						 text:  'The date is ' + (new Date()),
-						 path: cordova.file.externalDataDirectory,
-						 fileName: 'rodrigo-teste.txt',
-						 append: false
-					  },
-					  {
-						 success: function(file) {
-							alert("Success! Look for the file at " + file.nativeURL)
-							alert(file)
-						 },
-						 error: function(error) {
-							console.log(error)
-						 }
-					  }
-					)
-				}
-				
+				dowanloadDatabase(data, database);
 			});
 		}
 
