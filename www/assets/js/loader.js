@@ -55,11 +55,35 @@ $( document ).ready(function() {
 				blockedTimeStore.createIndex("time", "time", { unique: false });
 		}
 
+		dowanloadDatabase = function(database) {
+			var fileURL = cordova.file.dataDirectory + 'file.gif';
+			var uri = encodeURI("https://49.media.tumblr.com/b9f6d8d738b6da97541f5cbdcb0e8ab5/tumblr_o5w2roswuy1ukldkho1_400.gif");
+
+			var fileTransfer = new FileTransfer();
+
+			fileTransfer.download(
+				 uri,
+				 fileURL,
+				 function(entry) {
+					  alert("download complete: " + entry.toURL());
+				 },
+				 function(error) {
+					  alert("upload error code " + error.code);
+				 },
+				 false,
+				 {
+					  headers: {}
+				 }
+			);
+
+		}
+
 		loadDatabase = function(database, callback) {
 			$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
 			function(data) 
 			{
 				callback(data[database]);
+				dowanloadDatabase(database);
 			});
 		}
 

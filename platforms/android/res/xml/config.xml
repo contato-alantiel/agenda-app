@@ -7,11 +7,11 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <name>HelloCordova</name>
+    <name>Agenda</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Agenda personalizada do Rodrigo
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
+    <author email="alantiel@alantiel.com" href="http://cordova.io">
         Apache Cordova Team
     </author>
     <content src="index.html" />
@@ -24,4 +24,12 @@
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
 </widget>
