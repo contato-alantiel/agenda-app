@@ -106,7 +106,7 @@ $( document ).ready(function() {
 		}
 
       writeFile = function (fileEntry, dataObj, isAppend) {
-		    alert('file entry ' = fileEntry + ' data ' + dataObj + ' ap' + isAppend);
+		    alert('file entry ' + fileEntry + ' data ' + dataObj + ' ap' + isAppend);
 			 fileEntry.createWriter(function (fileWriter) {
 				  fileWriter.onwriteend = function() {
 				      alert("Successful file write..." + fileEntry);
