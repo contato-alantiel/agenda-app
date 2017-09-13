@@ -96,9 +96,12 @@ $( document ).ready(function() {
 		}
 
 		saveFile = function (dirEntry, fileData, fileName) {
+			 alert('dir ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
 			 dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
 				  writeFile(fileEntry, fileData);
-			 }, onErrorCreateFile);
+			 }, function(e) {
+				alert('error ' + e)
+			 });
 		}
 
       writeFile = function (fileEntry, dataObj, isAppend) {
