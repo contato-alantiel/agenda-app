@@ -119,7 +119,7 @@ $( document ).ready(function() {
 			var fs = CordovaPromiseFS({
 			  persistent: true, 
 			  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
-			  Promise: Promise:Promise // Your favorite Promise/A+ library!
+			  Promise: Promise // Your favorite Promise/A+ library!
 			});
 
 			//fs.write('rodrigo-teste.txt', 'conteudo');

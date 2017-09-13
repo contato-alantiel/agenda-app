@@ -123,14 +123,11 @@ $( document ).ready(function() {
 			});
 
 			//fs.write('rodrigo-teste.txt', 'conteudo');
-			alert('existe rodrigo-agenda-customers.json');
-			alert(fs.exists('rodrigo-agenda-customers.json'));
+			alert('existe rodrigo-agenda-customers.json' + fs.exists('rodrigo-agenda-customers.json'));
 
-			alert('existe toUrl rodrigo-agenda-customers.json');
-			alert(fs.exists(fs.toUrl('rodrigo-agenda-customers.json')));
+			alert('existe toUrl rodrigo-agenda-customers.json' + fs.exists(fs.toUrl('rodrigo-agenda-customers.json')));
 
-			alert('existe toUrl rodrigo-agenda-customers.json');
-			alert(fs.exists(fs.toInternalURL('rodrigo-agenda-customers.json')));
+			alert('existe toInternalURL rodrigo-agenda-customers.json' + fs.exists(fs.toInternalURL('rodrigo-agenda-customers.json')));
 		}
 
 		loadDatabase = function(database, callback) {
