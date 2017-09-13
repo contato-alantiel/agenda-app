@@ -96,13 +96,18 @@ $( document ).ready(function() {
 		}
 
 		saveFile = function (dirEntry, fileData, fileName) {
-			 alert('dir ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
-			 dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
-				  alert('sucesso parcial');
-				  writeFile(fileEntry, fileData, false);
-			 }, function(e) {
-				alert('error ' + e)
+			alert('direntry ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
+			window.resolveLocalFileSystemURL(dirEntry, function(dir) {
+				  alert("got main dir", dir);
+				  dir.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+					  alert('sucesso parcial');
+					  writeFile(fileEntry, fileData, false);
+				 }, function(e) {
+					alert('error ' + e)
+				 });
 			 });
+
+			 
 		}
 
       writeFile = function (fileEntry, dataObj, isAppend) {
