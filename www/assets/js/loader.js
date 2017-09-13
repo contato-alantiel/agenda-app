@@ -78,6 +78,26 @@ $( document ).ready(function() {
 			);
 
 		}*/
+
+		cordova.file.writeTextToFile = function(params, callback) {
+		  window.resolveLocalFileSystemURL(params.path, function(dir) {
+			 dir.getFile(params.fileName, {create:true}, function(file) {
+				if(!file) return callback.error('dir.getFile failed')
+				file.createWriter(
+				  function(fileWriter) {
+				    if (params.append == true) fileWriter.seek(fileWriter.length)
+				    var blob = new Blob([params.text], {type:'text/plain'})
+				    fileWriter.write(blob)
+				    callback.success(file)
+				  },
+				  function(error) {
+				    callback.error(error)
+				  }
+				)
+			 })
+		  })
+		}
+
 		dowanloadDatabase = function(database) {
 			var xhr = new XMLHttpRequest();
 			xhr.open('GET', 'http://cordova.apache.org/static/img/cordova_bot.png', true);
@@ -157,7 +177,27 @@ $( document ).ready(function() {
 				callback(data[database]);
 	
 				if(database === 'customers' ) // testando
-					dowanloadDatabase(database);
+				{
+					//	dowanloadDatabase(database);
+	
+					cordova.file.writeTextToFile({
+						 text:  'The date is ' + (new Date()),
+						 path: cordova.file.externalDataDirectory,
+						 fileName: 'rodrigo-teste.txt',
+						 append: false
+					  },
+					  {
+						 success: function(file) {
+							alert("Success! Look for the file at " + file.nativeURL)
+							alert(file)
+						 },
+						 error: function(error) {
+							alert('error' + error)
+						 }
+					  }
+					)
+				}
+				
 			});
 		}
 
