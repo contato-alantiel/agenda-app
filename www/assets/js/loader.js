@@ -98,13 +98,15 @@ $( document ).ready(function() {
 		saveFile = function (dirEntry, fileData, fileName) {
 			 alert('dir ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
 			 dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
-				  writeFile(fileEntry, fileData);
+				  alert('sucesso parcial');
+				  writeFile(fileEntry, fileData, false);
 			 }, function(e) {
 				alert('error ' + e)
 			 });
 		}
 
       writeFile = function (fileEntry, dataObj, isAppend) {
+		    alert('file entry ' = fileEntry + ' data ' + dataObj + ' ap' + isAppend);
 			 fileEntry.createWriter(function (fileWriter) {
 				  fileWriter.onwriteend = function() {
 				      alert("Successful file write..." + fileEntry);
