@@ -56,7 +56,7 @@ $( document ).ready(function() {
 		}
 
 		dowanloadDatabase = function(database) {
-			var fileURL = cordova.file.dataDirectory + 'file.gif';
+			var fileURL = cordova.file.documentsDirectory + 'file.gif';
 			var uri = encodeURI("https://49.media.tumblr.com/b9f6d8d738b6da97541f5cbdcb0e8ab5/tumblr_o5w2roswuy1ukldkho1_400.gif");
 
 			var fileTransfer = new FileTransfer();
@@ -65,7 +65,7 @@ $( document ).ready(function() {
 				 uri,
 				 fileURL,
 				 function(entry) {
-					  alert("download complete: " + entry.toURL());
+					  alert("download complete: " + fileURL + " - " + entry.toURL());
 				 },
 				 function(error) {
 					  alert("upload error code " + error.code);
