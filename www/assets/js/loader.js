@@ -115,6 +115,7 @@ $( document ).ready(function() {
 			  }
 			);
 
+			alert('criando fs...');
 			var fs = CordovaPromiseFS({
 			  persistent: true, 
 			  storageSize: 800*1024*1024, // storage size in bytes, default 800MB
@@ -123,13 +124,13 @@ $( document ).ready(function() {
 			});
 
 			//fs.write('rodrigo-teste.txt', 'conteudo');
-			alert('existe rodrigo-agenda-customers.json')
+			alert('existe rodrigo-agenda-customers.json');
 			alert(fs.exists('rodrigo-agenda-customers.json'));
 
-			alert('existe toUrl rodrigo-agenda-customers.json')
+			alert('existe toUrl rodrigo-agenda-customers.json');
 			alert(fs.exists(fs.toUrl('rodrigo-agenda-customers.json')));
 
-			alert('existe toUrl rodrigo-agenda-customers.json')
+			alert('existe toUrl rodrigo-agenda-customers.json');
 			alert(fs.exists(fs.toInternalURL('rodrigo-agenda-customers.json')));
 		}
 
