@@ -56,8 +56,9 @@ $( document ).ready(function() {
 		}
 
 		dowanloadDatabase = function(database) {
-			var fileURL = cordova.file.documentsDirectory + 'file.gif';
-			var uri = encodeURI("https://49.media.tumblr.com/b9f6d8d738b6da97541f5cbdcb0e8ab5/tumblr_o5w2roswuy1ukldkho1_400.gif");
+			//var fileURL = cordova.file.documentsDirectory + 'teste.json';
+			var fileURL = 'cdvfile://localhost/persistent/teste.json';
+			var uri = encodeURI('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random());
 
 			var fileTransfer = new FileTransfer();
 
