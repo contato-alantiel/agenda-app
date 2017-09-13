@@ -58,7 +58,6 @@ $( document ).ready(function() {
 		$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
 		function(data) 
 		{
-			console.log( "success" );
 		   callback(data[database]);
 		});
 	}

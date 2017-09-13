@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-
+	document.addEventListener("deviceready", function () {
 	 window.setTimeout(function(){
 		loadCustomers();
 	 }, 1000);
@@ -113,5 +113,5 @@ $( document ).ready(function() {
 		  objCustomerList.toggleClass("hide");
 		  objThis.parent().find("span").toggleClass("hide");
 	});
-
-});
+  }); //cordova ready
+}); //jquery ready
