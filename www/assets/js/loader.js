@@ -131,6 +131,25 @@ $( document ).ready(function() {
 			 });
 		}
 
+		readBinaryFile = function (fileEntry) {
+			 fileEntry.file(function (file) {
+				  var reader = new FileReader();
+
+				  reader.onloadend = function() {
+				      alert("Successful file write: " + this.result);
+				      alert(fileEntry.fullPath + ": " + this.result);
+
+				      var blob = new Blob([new Uint8Array(this.result)], { type: "image/png" });
+				      displayImage(blob);
+						var elem = document.getElementById('logo');
+						 elem.src = window.URL.createObjectURL(blob);
+				  };
+
+				  reader.readAsArrayBuffer(file);
+
+			 }, function() {alert('error in show image')});
+		}
+
 		loadDatabase = function(database, callback) {
 			$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
 			function(data) 

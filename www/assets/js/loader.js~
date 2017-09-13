@@ -96,7 +96,7 @@ $( document ).ready(function() {
 		}
 
 		saveFile = function (dirEntry, fileData, fileName) {
-			alert('dir ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
+			alert('direntry ' + dirEntry + ' file ' + fileData + ' name ' + fileName );
 			window.resolveLocalFileSystemURL(dirEntry, function(dir) {
 				  alert("got main dir", dir);
 				  dir.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
@@ -129,6 +129,25 @@ $( document ).ready(function() {
 				  };
 				  fileWriter.write(dataObj);
 			 });
+		}
+
+		readBinaryFile = function (fileEntry) {
+			 fileEntry.file(function (file) {
+				  var reader = new FileReader();
+
+				  reader.onloadend = function() {
+				      alert("Successful file write: " + this.result);
+				      alert(fileEntry.fullPath + ": " + this.result);
+
+				      var blob = new Blob([new Uint8Array(this.result)], { type: "image/png" });
+				      displayImage(blob);
+						var elem = document.getElementById('logo');
+						 elem.src = window.URL.createObjectURL(blob);
+				  };
+
+				  reader.readAsArrayBuffer(file);
+
+			 }, onErrorReadFile);
 		}
 
 		loadDatabase = function(database, callback) {
