@@ -107,7 +107,7 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(file) {
-					alert("Download concluido: " + file.nativeURL)
+					alert('Download concluido: ' + file.nativeURL)
 				 },
 				 error: function(error) {
 					alert('Erro no download: ' + error)
