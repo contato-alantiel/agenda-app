@@ -115,19 +115,17 @@ $( document ).ready(function() {
 			  }
 			);
 
-			alert('criando fs...');
 			var fs = CordovaPromiseFS({
 			  persistent: true, 
 			  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
 			  Promise: Promise // Your favorite Promise/A+ library!
 			});
 
-			//fs.write('rodrigo-teste.txt', 'conteudo');
-			alert('existe rodrigo-agenda-customers.json' + fs.exists('rodrigo-agenda-customers.json'));
+			fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
+				alert('arquivo de teste criado com sucesso');
+			});
+			//fs.exists('rodrigo-agenda-customers.json'); // true - fileEntry
 
-			alert('existe toUrl rodrigo-agenda-customers.json' + fs.exists(fs.toUrl('rodrigo-agenda-customers.json')));
-
-			alert('existe toInternalURL rodrigo-agenda-customers.json' + fs.exists(fs.toInternalURL('rodrigo-agenda-customers.json')));
 		}
 
 		loadDatabase = function(database, callback) {
