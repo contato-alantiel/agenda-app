@@ -33,7 +33,6 @@ $( document ).ready(function() {
 	}
 
 	function loadWeekSchedule(prefix) {
-		console.log(prefix);
 		function getMonday(d) {
 		  d = new Date(d);
 		  var day = d.getDay(),
@@ -86,8 +85,6 @@ $( document ).ready(function() {
 	}
 
 	function loadFromDBToWeeklyTable(columnNumber, date){
-		console.log(columnNumber, date);
-
 		$("tbody tr td", $("#week-schedule")).removeClass('not-filled').addClass('filled');
 
 		var objectStore = db.transaction("freeTime").objectStore("freeTime");
@@ -168,8 +165,8 @@ $( document ).ready(function() {
 					  console.log(toSave);
 					  addToScheduledTime(toSave);
 					  removeFromDB("freeTime", objThis.data("id"));
-                 var d = today();
-				     var prefixNow = d.toISOString().slice(0,10).replace(/-/g,""); //yyyymmdd					  
+					  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").split("/");
+				     var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd					  
 					  loadFromDBToDailyTable("scheduledTime", prefixNow);
 					  $(".custom-combobox-input").val("");
 					  $( this ).dialog( "close" );

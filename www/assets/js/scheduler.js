@@ -103,8 +103,9 @@ $( document ).ready(function() {
                 .objectStore(tableName)
                 .delete(itemId);
         request.onsuccess = function(event) {
-		  var d = today();
-		  var prefixNow = d.toISOString().slice(0,10).replace(/-/g,""); //yyyymmdd
+		  
+		  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").split("/");
+		  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd
 		  loadFromDBToDailyTable(tableName, prefixNow);
         };		
 	}
@@ -165,8 +166,8 @@ $( document ).ready(function() {
 					  console.log(toSave);
 					  addToScheduledTime(toSave);
 					  removeFromDB("freeTime", objThis.data("id"));
-                 var d = today();
-				     var prefixNow = d.toISOString().slice(0,10).replace(/-/g,""); //yyyymmdd					  
+					  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").split("/");
+				     var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd					  
 					  loadFromDBToDailyTable("scheduledTime", prefixNow);
 					  $(".custom-combobox-input").val("");
 					  $( this ).dialog( "close" );
