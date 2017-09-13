@@ -16,7 +16,6 @@
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-file-transfer": "^1.6.3",
         "cordova-plugin-whitelist": "~1.3.2",
-        "cordova-promise-fs": "^1.2.5",
         "promiscuous": "^0.7.1"
     },
     "cordova": {
