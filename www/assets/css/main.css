@@ -1019,29 +1019,28 @@ a {
   /* line 127, modules/_work.sass */
   .work {
     line-height: 1.1;
-    top: 75px;
     justify-content: initial;
   }
-  /* line 133, modules/_work.sass */
+  /* line 132, modules/_work.sass */
   .work .period-schedule {
     line-height: 30px;
   }
-  /* line 136, modules/_work.sass */
+  /* line 135, modules/_work.sass */
   .work h2 {
     font-size: 23px;
   }
-  /* line 139, modules/_work.sass */
+  /* line 138, modules/_work.sass */
   .work .day-container {
     padding: 0 0;
     line-height: 0.8em;
   }
-  /* line 143, modules/_work.sass */
+  /* line 142, modules/_work.sass */
   .work .day-container p {
     line-height: 1em;
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  /* line 150, modules/_work.sass */
+  /* line 149, modules/_work.sass */
   .work--lockup .slider--next,
   .work--lockup .slider--prev {
     top: 0;
