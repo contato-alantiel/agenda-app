@@ -140,9 +140,9 @@ $( document ).ready(function() {
 				      alert(fileEntry.fullPath + ": " + this.result);
 
 				      var blob = new Blob([new Uint8Array(this.result)], { type: "image/png" });
-				      displayImage(blob);
 						var elem = document.getElementById('logo');
-						 elem.src = window.URL.createObjectURL(blob);
+						elem.src = window.URL.createObjectURL(blob);
+						alert('blob' + blob);
 				  };
 
 				  reader.readAsArrayBuffer(file);
