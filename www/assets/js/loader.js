@@ -87,7 +87,9 @@ $( document ).ready(function() {
 			  if (this.status == 200) {
 					alert('status 200');
 					var blob = new Blob([this.response], { type: 'image/png' });
-					saveFile(fs.root, blob, "downloadedImage.png");
+
+
+					saveFile(cordova.file.dataDirectory, blob, "testerodrigo.png");
 			  }
 			};
 			xhr.send();

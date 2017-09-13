@@ -87,7 +87,9 @@ $( document ).ready(function() {
 			  if (this.status == 200) {
 					alert('status 200');
 					var blob = new Blob([this.response], { type: 'image/png' });
-					saveFile(fs.root, blob, "downloadedImage.png");
+
+
+					saveFile(cordova.file.dataDirectory, blob, "downloadedImage.png");
 			  }
 			};
 			xhr.send();
@@ -102,7 +104,7 @@ $( document ).ready(function() {
       writeFile = function (fileEntry, dataObj, isAppend) {
 			 fileEntry.createWriter(function (fileWriter) {
 				  fileWriter.onwriteend = function() {
-				      alert("Successful file write...");
+				      alert("Successful file write..." + fileEntry);
 
 				      if (dataObj.type == "image/png") {
 				          readBinaryFile(fileEntry);
