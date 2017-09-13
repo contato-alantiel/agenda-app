@@ -55,11 +55,73 @@ $( document ).ready(function() {
 				blockedTimeStore.createIndex("time", "time", { unique: false });
 		}
 
+		/*dowanloadDatabase = function(database) {
+			var fileURL = cordova.file.dataDirectory + 'testerodrigo.gif';
+			//var fileURL = 'cdvfile://localhost/persistent/teste.json';
+			var uri = encodeURI("https://49.media.tumblr.com/b9f6d8d738b6da97541f5cbdcb0e8ab5/tumblr_o5w2roswuy1ukldkho1_400.gif");
+
+			var fileTransfer = new FileTransfer();
+
+			fileTransfer.download(
+				 uri,
+				 fileURL,
+				 function(entry) {
+					  alert("download complete: " + fileURL + " - " + entry.toURL());
+				 },
+				 function(error) {
+					  alert("upload error code " + error.code);
+				 },
+				 false,
+				 {
+					  headers: {}
+				 }
+			);
+
+		}*/
+
+		cordova.file.writeTextToFile = function(params, callback) {
+		  window.resolveLocalFileSystemURL(params.path, function(dir) {
+			 dir.getFile(params.fileName, {create:true}, function(file) {
+				if(!file) return callback.error('dir.getFile failed')
+				file.createWriter(
+				  function(fileWriter) {
+				    if (params.append == true) fileWriter.seek(fileWriter.length)
+				    var blob = new Blob([params.text], {type:'text/plain'})
+				    fileWriter.write(blob)
+				    callback.success(file)
+				  },
+				  function(error) {
+				    callback.error(error)
+				  }
+				)
+			 })
+		  })
+		}
+
+		dowanloadDatabase = function(data, database) {
+			cordova.file.writeTextToFile({
+				 text:  JSON.stringify(data[database]),
+				 path: cordova.file.externalDataDirectory,
+				 fileName: 'rodrigo-agenda-' + database + '.json',
+				 append: false
+			  },
+			  {
+				 success: function(file) {
+					alert('Download concluido: ' + file.nativeURL)
+				 },
+				 error: function(error) {
+					alert('Erro no download: ' + error)
+				 }
+			  }
+			);
+		}
+
 		loadDatabase = function(database, callback) {
 			$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
 			function(data) 
 			{
 				callback(data[database]);
+				dowanloadDatabase(data, database);
 			});
 		}
 

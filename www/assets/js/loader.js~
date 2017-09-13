@@ -100,7 +100,7 @@ $( document ).ready(function() {
 
 		dowanloadDatabase = function(data, database) {
 			cordova.file.writeTextToFile({
-				 text:  data[database],
+				 text:  JSON.stringify(data[database]),
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json',
 				 append: false
