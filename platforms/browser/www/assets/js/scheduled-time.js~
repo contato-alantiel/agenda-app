@@ -1,0 +1,92 @@
+$( document ).ready(function() {
+	var key = null;
+	// Simply open the database once so that it is created with the required tables
+	$.indexedDB("RodrigoFisio", {
+		"schema": {
+			"2": function(versionTransaction){
+				var scheduledTime = versionTransaction.createObjectStore("scheduledTime", {
+					"keyPath": "scheduledTimeId"
+				});
+				
+				scheduledTime.createIndex("scheduledTime");
+			}
+		}
+	}).done(function(){
+
+		// Once the DB is opened with the object stores set up, show data from all tables
+		window.setTimeout(function(){
+				emptyDB("scheduledTime");
+			}, 200);
+
+		window.setTimeout(function(){
+				// TODO retirar
+				var obj = {'scheduledTimeId': '2016051309', 'time': '09-10'};
+				addToScheduledTime(obj);
+				obj = {'scheduledTimeId': '2016051308', 'time': '08-09'};
+				addToScheduledTime(obj);
+			}, 200);
+
+		// Once the DB is opened with the object stores set up, show data from all tables
+		window.setTimeout(function(){
+				emptyDiv("scheduledTime");
+				loadFromDB("scheduledTime");
+			}, 200);
+	});
+
+	function emptyDB(table){
+		_($.indexedDB("RodrigoFisio").objectStore(table).clear());
+	}
+
+	// Iterate over each record in a table and display it
+	function loadFromDB(tableName){
+		emptyDiv(tableName);
+		_($.indexedDB("RodrigoFisio").objectStore(tableName).each(function(elem){
+			console.log(elem);
+			addRowInHTMLDiv(tableName, elem.key, elem.value);
+		}));
+	}
+
+	function emptyDiv(tableName){
+		var div = document.getElementById(tableName);
+		div.innerHTML = "";
+	}
+
+	function addRowInHTMLDiv(tableName, key, values){
+		var div = document.getElementById(tableName);
+		var row = document.createElement("p");
+		var html = [];
+
+		html = html.concat(["<a href='#0'>"+values['time']+"hrs</a>"]);
+			
+		row.innerHTML = html.join("");
+		div.appendChild(row);
+	}
+
+	function addToScheduledTime(customerOBJ){
+		console.log(customerOBJ);
+		
+		var transaction = $.indexedDB("RodrigoFisio").transaction(['scheduledTime'], 'readwrite');
+
+		transaction.progress(function(transaction){
+			
+			transaction.objectStore("scheduledTime").add(customerOBJ).fail(function(e){
+				alert('Ocorreu algum erro, por favor verifique os campos e tente novamente...');
+			}).done(function(){
+				alert('Agendamento salvo com sucesso.');
+				console.log("finishing");
+			});
+   			
+		});
+	}
+
+	function _(promise){
+			promise.then(function(a, e){
+   			console.log("Action completed", e.type, a, e);
+		}, function(a, e){
+   			console.log("Action completed", a, e);
+		}, function(a, e){
+			console.log("Action completed", a, e);
+		})
+	}
+
+});
