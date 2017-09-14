@@ -100,21 +100,40 @@ $( document ).ready(function() {
 
 		cordova.file.readJSONFromFile = function(params, callback) {
 		  window.resolveLocalFileSystemURL(params.path, function(dir) {
-			 dir.getFile(params.fileName, {create:true}, function(file) {
+			 dir.getFile(params.fileName, {create:false}, function(fileEntry) {
 				if(!file) return callback.error('dir.getFile failed')
-				file.createWriter(
-				  function(fileWriter) {
-				    if (params.append == true) fileWriter.seek(fileWriter.length)
-				    var blob = new Blob([params.text], {type:'text/plain'})
-				    fileWriter.write(blob)
-				    callback.success(file)
-				  },
-				  function(error) {
-				    callback.error(error)
-				  }
-				)
+
+				fileEntry.file(function (file) {
+					var reader = new FileReader();
+
+					reader.onloadend = function() {
+						alert("Successful file read: " + this.result);
+					};
+
+					alert('asText' + reader.readAsText(file));
+
+					callback.success(reader.readAsText(file))
+
+				}, function() { alert('error') });
+				
 			 })
 		  })
+		}
+
+		readDatabase(database) {
+			cordova.file.readJSONFromFile({
+				 path: cordova.file.externalDataDirectory,
+				 fileName: 'rodrigo-agenda-' + database + '.json'
+			  },
+			  {
+				 success: function(content) {
+					alert('Leitura concluida: ' + content);
+					
+				 },
+				 error: function(error) {
+					alert('Erro no download: ' + error)
+				 }
+			  }
 		}
 
 		dowanloadDatabase = function(data, database) {
@@ -127,17 +146,9 @@ $( document ).ready(function() {
 			  {
 				 success: function(file) {
 					alert('Download concluido: ' + file.nativeURL);
-					if(database === 'customers') {
-						var fs = CordovaPromiseFS({
-						  persistent: true, 
-						  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
-						  Promise: Promise // Your favorite Promise/A+ library!
-						});
 
-						fs.deviceready.then(function(){
-							alert('toUrl');
-							alert(fs.toUrl('rodrigo-teste.txt'));
-						})
+					if(database === 'customers') {
+							readDatabase(database);			
 					}
 				 },
 				 error: function(error) {
@@ -146,12 +157,17 @@ $( document ).ready(function() {
 			  }
 			);
 
-			/*fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
+			/*
+			if(database === 'customers') {
+				var fs = CordovaPromiseFS({
+				  persistent: true, 
+				  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
+				  Promise: Promise // Your favorite Promise/A+ library!
+				});
+			}
+			fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
 				alert('arquivo de teste criado com sucesso');
 			}, alert('erro ao escrever arquivo'));*/
-
-			
-			//fs.exists('rodrigo-agenda-customers.json'); // true - fileEntry
 
 		}
 
