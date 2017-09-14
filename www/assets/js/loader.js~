@@ -135,7 +135,7 @@ $( document ).ready(function() {
 						});
 
 						fs.deviceready.then(function(){
-							alert('lendo clientes...');
+							alert('toUrl');
 							alert(fs.toUrl('rodrigo-agenda-customers.json'));
 						})
 					}

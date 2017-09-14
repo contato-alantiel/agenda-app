@@ -136,7 +136,7 @@ $( document ).ready(function() {
 
 						fs.deviceready.then(function(){
 							alert('toUrl');
-							alert(fs.toUrl('rodrigo-agenda-customers.json'));
+							alert(fs.toUrl('rodrigo-teste.txt'));
 						})
 					}
 				 },
