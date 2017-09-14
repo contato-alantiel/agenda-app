@@ -99,7 +99,7 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(content) {
-					callback(content[database]);
+					callback(content);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)

@@ -99,9 +99,7 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(content) {
-					alert('readLocalDatabase - content' + content);
-					alert('readLocalDatabase content[database]' + content[database]);
-					callback(content[database]);
+					callback(content);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)
@@ -145,7 +143,6 @@ $( document ).ready(function() {
 			loadDatabase('customers', function(customers) {
 				var customertStore = db.transaction(["customer"], "readwrite")
 				    .objectStore("customer")
-				alert("customers " + customers);
 				alert("JSON.stringify customers " + JSON.stringify(customers));
 				for(i=0; i<customers.length; i++) {
 					customertStore.add(customers[i]);
