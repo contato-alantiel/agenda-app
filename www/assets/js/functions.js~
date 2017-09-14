@@ -95,7 +95,7 @@ document.addEventListener("deviceready", function () {
 	}
 
 	//TODO fazer validacao backend
-	if(cookieValue === 'f-' || cookieValue === 'rodrigo-admin123') {
+	if(cookieValue.toLowerCase() === 'f-' || cookieValue === 'rodrigo-admin123') {
 		$( "#dialog-offline" ).dialog({
 		  resizable: true,
 		  height: "auto",

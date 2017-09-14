@@ -159,7 +159,7 @@ document.addEventListener("deviceready", function () {
       }
     }
     else if (param.type === "swipedown" || param.keyCode === 38 || param < 0){
-      if (curPos !== 0){
+      if (curPos !== 0 && curPos !== 1){
         nextPos = curPos - 1;
         updateNavs(nextPos);
         updateContent(curPos, nextPos, lastItem);
