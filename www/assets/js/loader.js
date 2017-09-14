@@ -10,6 +10,7 @@ if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
 		 document.dispatchEvent(e);
   }, 50);
   var cordova = {file:{}};
+  var isWeb = true;
 }
 
 $( document ).ready(function() {
@@ -81,22 +82,26 @@ $( document ).ready(function() {
 		}
 
 		cordova.file.readJSONFromFile = function(params, callback) {
-		  window.resolveLocalFileSystemURL(params.path, function(dir) {
-			 dir.getFile(params.fileName, {create:false}, function(fileEntry) {
-				if(!fileEntry) return callback.error('dir.getFile failed')
+		  if(isWeb) {
+			  callback.success([]);
+		  } else {
+			  window.resolveLocalFileSystemURL(params.path, function(dir) {
+				 dir.getFile(params.fileName, {create:false}, function(fileEntry) {
+					if(!fileEntry) return callback.error('dir.getFile failed')
 
-				fileEntry.file(function (file) {
-					var reader = new FileReader();
-					reader.onloadend = function() {
-						callback.success(JSON.parse(this.result));
-					};
+					fileEntry.file(function (file) {
+						var reader = new FileReader();
+						reader.onloadend = function() {
+							callback.success(JSON.parse(this.result));
+						};
 
-					reader.readAsText(file); //trigger to get file content
+						reader.readAsText(file); //trigger to get file content
 
-				}, function() { alert('error') });
-				
-			 })
-		  })
+					}, function() { alert('error') });
+			
+				 })
+			  })
+		  }
 		}
 
 		readLocalDatabase = function(database, callback) {

@@ -1019,27 +1019,28 @@ a {
   /* line 127, modules/_work.sass */
   .work {
     line-height: 1.1;
+    min-height: 580px;
   }
-  /* line 130, modules/_work.sass */
+  /* line 131, modules/_work.sass */
   .work .period-schedule {
     line-height: 30px;
   }
-  /* line 133, modules/_work.sass */
+  /* line 134, modules/_work.sass */
   .work h2 {
     font-size: 23px;
   }
-  /* line 136, modules/_work.sass */
+  /* line 137, modules/_work.sass */
   .work .day-container {
     padding: 0 0;
     line-height: 0.8em;
   }
-  /* line 140, modules/_work.sass */
+  /* line 141, modules/_work.sass */
   .work .day-container p {
     line-height: 1em;
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  /* line 147, modules/_work.sass */
+  /* line 148, modules/_work.sass */
   .work--lockup .slider--next,
   .work--lockup .slider--prev {
     top: 0;
@@ -1242,33 +1243,38 @@ a {
   }
 }
 @media (max-width: 600px) {
-  /* line 168, modules/_hire.sass */
+  /* line 166, modules/_hire.sass */
+  .hire {
+    min-height: 470px;
+  }
+
+  /* line 171, modules/_hire.sass */
   .work-request--options {
     margin: 20px 0;
   }
 }
 @media (max-width: 600px) and (max-width: 415px) {
-  /* line 168, modules/_hire.sass */
+  /* line 171, modules/_hire.sass */
   .work-request--options {
     justify-content: space-between;
   }
 }
 @media (max-width: 600px) {
-  /* line 174, modules/_hire.sass */
+  /* line 177, modules/_hire.sass */
   .work-request--options label {
     width: 150px;
     margin-bottom: 15px;
     font-size: 14px;
   }
-  /* line 183, modules/_hire.sass */
+  /* line 186, modules/_hire.sass */
   .work-request--options input[type="checkbox"]:checked + label svg {
     width: 12px;
   }
-  /* line 186, modules/_hire.sass */
+  /* line 189, modules/_hire.sass */
   .work-request--information {
     margin-bottom: 30px;
   }
-  /* line 189, modules/_hire.sass */
+  /* line 192, modules/_hire.sass */
   .work-request--information .information-name,
   .work-request--information .information-email {
     height: 40px;
