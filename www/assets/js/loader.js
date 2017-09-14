@@ -79,6 +79,7 @@ $( document ).ready(function() {
 				fileEntry.file(function (file) {
 					var reader = new FileReader();
 					reader.onloadend = function() {
+						alert(this.result);
 						callback.success(this.result);
 					};
 

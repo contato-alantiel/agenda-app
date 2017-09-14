@@ -97,7 +97,7 @@ $( document ).ready(function() {
 			  {
 				 success: function(content) {
 					alert('Leitura concluida: ' + content);
-					
+					callback(content);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)
