@@ -142,12 +142,9 @@ $( document ).ready(function() {
 				});
 
 				fs.deviceready.then(function(){
-					fs.create('rodrigo-teste.txt').then(function() {
-						fs.write('rodrigo-teste.txt', 'teste');
-						fs.read('rodrigo-teste.txt').then(function(content){
+					fs.read('rodrigo-agenda-customers.json').then(function(content){
 							alert("conteudo: " + content);
-						});
-					}, alert('problema ao criar arquivo'));
+					});
 				})
 			}
 
