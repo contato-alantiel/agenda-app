@@ -121,7 +121,13 @@ $( document ).ready(function() {
 			  Promise: Promise // Your favorite Promise/A+ library!
 			});
 
-			fs.write('rodrigo-teste.txt', 'conteudo');
+			fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
+				alert('arquivo de teste criado com sucesso');
+			}, alert('erro ao escrever arquivo'));
+
+			fs.readJSON('rodrigo-agenda-' + database + '.json').then(function(content){
+				alert(JSON.stringify(content));
+			}, alert('problema ao ler arquivo'));
 			//fs.exists('rodrigo-agenda-customers.json'); // true - fileEntry
 
 		}
