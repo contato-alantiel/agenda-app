@@ -141,11 +141,11 @@ $( document ).ready(function() {
 
 		loadCustomerFromBackup = function(db, offline = false) {
 			loadDatabase('customers', function(customers) {
-				var customertStore = db.transaction(["customer"], "readwrite")
+				var customerStore = db.transaction(["customer"], "readwrite")
 				    .objectStore("customer")
 				alert("JSON.stringify customers " + JSON.stringify(customers));
 				for(i=0; i<customers.length; i++) {
-					customertStore.add(customers[i]);
+					customerStore.add(customers[i]);
 				}
 			}, offline);
 		}

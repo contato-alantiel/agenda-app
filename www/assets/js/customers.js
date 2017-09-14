@@ -1,8 +1,9 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
-	 window.setTimeout(function(){
+		
+	 function initCustomers(){
 		loadCustomers();
-	 }, 1000);
+	 }
 
 
      function loadCustomers(){
@@ -23,7 +24,7 @@ $( document ).ready(function() {
 		$("#customer tbody").html("");
 	 }
 
-	function addRowInHTMLTable(tableName, key, values){
+	 function addRowInHTMLTable(tableName, key, values){
 		var actions = {
 			"customer": {
    			"Editar": "editCustomer",

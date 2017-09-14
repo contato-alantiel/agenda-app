@@ -1,7 +1,6 @@
 $( document ).ready(function() {
-
 	document.addEventListener("deviceready", function () {
-        window.setTimeout(function(){
+        initScheduler = function(){
 				comboboxUI();
 				scheculerSlider();
 
@@ -10,9 +9,9 @@ $( document ).ready(function() {
 
 				loadDaySchedule(prefixNow);
 				loadWeekSchedule(prefixNow);
-			}, 400);
+			}
 
-			function loadCustomers() {
+			function loadCustomersCombobox() {
 				$('#combobox').find('option:gt(0)').remove();
 				$('#combobox option:eq(0)').prop('selected', true)
 
@@ -152,7 +151,7 @@ $( document ).ready(function() {
 					function(e){
 						var objThis = $(e.target);
 
-						loadCustomers();
+						loadCustomersCombobox();
 
 						$( "#dialog-free" ).find(".confirm-time").text(objThis.text());
 
@@ -311,7 +310,7 @@ $( document ).ready(function() {
 			}
 
 			function comboboxUI() {
-				loadCustomers();
+				loadCustomersCombobox();
 
 				$.widget( "custom.combobox", {
 					_create: function() {

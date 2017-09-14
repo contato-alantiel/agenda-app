@@ -86,6 +86,9 @@ $( document ).ready(function() {
 		loadScheduledTimeFromBackup(db, offline);
 		loadBlockedTimeFromBackup(db, offline);
 
+		initCustomers();
+		initScheduler();
+
 		updateNavs(nextPos);
 		updateContent(curPos, nextPos, lastItem);
 		$("#user-pass").val("");
@@ -98,6 +101,7 @@ $( document ).ready(function() {
 		  height: "auto",
 		  width: "auto",
 		  modal: true,
+		  closeOnEscape: false,
 		  buttons: {
 			"Baixar versão online": function() {
 			  successLogin(false);
