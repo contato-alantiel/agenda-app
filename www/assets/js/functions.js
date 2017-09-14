@@ -91,6 +91,7 @@ document.addEventListener("deviceready", function () {
 			updateNavs(nextPos);
 			updateContent(curPos, nextPos, lastItem);
 			$("#user-pass").val("");
+			$('.header--nav-toggle').removeClass('hide');
 		}, 1000);
 	}
 
