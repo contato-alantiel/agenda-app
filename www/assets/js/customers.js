@@ -1,7 +1,7 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		
-	 function initCustomers(){
+	 initCustomers = function (){
 		alert('initScheduler');
 		loadCustomers();
 	 }

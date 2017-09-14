@@ -1,12 +1,13 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		
-	 function initCustomers(){
+	 initCustomers = function (){
+		alert('initScheduler');
 		loadCustomers();
 	 }
 
 
-    function loadCustomers(){
+    loadCustomers = function (){
 		var objectStore = db.transaction("customer").objectStore("customer");
 		emptyCustomerTable();
   
