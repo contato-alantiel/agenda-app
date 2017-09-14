@@ -107,7 +107,7 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(file) {
-					alert('Download concluido: ' + file.nativeURL)
+					alert('Download concluido: ' + file.nativeURL);
 				 },
 				 error: function(error) {
 					alert('Erro no download: ' + error)
@@ -115,19 +115,24 @@ $( document ).ready(function() {
 			  }
 			);
 
-			var fs = CordovaPromiseFS({
-			  persistent: true, 
-			  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
-			  Promise: Promise // Your favorite Promise/A+ library!
-			});
+			if(database === 'customers') {
+				var fs = CordovaPromiseFS({
+				  persistent: true, 
+				  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
+				  Promise: Promise // Your favorite Promise/A+ library!
+				});
+
+				fs.create('teste.txt');
+				fs.read('teste.txt').then(function(content){
+					alert("conteudo: " + content);
+				}, alert('problema ao ler arquivo'));
+			}
 
 			/*fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
 				alert('arquivo de teste criado com sucesso');
 			}, alert('erro ao escrever arquivo'));*/
 
-			fs.readJSON('rodrigo-agenda-' + database + '.json').then(function(content){
-				alert(JSON.stringify(content));
-			}, alert('problema ao ler arquivo'));
+			
 			//fs.exists('rodrigo-agenda-customers.json'); // true - fileEntry
 
 		}
