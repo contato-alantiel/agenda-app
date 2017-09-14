@@ -120,7 +120,7 @@ $( document ).ready(function() {
 		  })
 		}
 
-		readDatabase(database) = function() {
+		readDatabase = function(database) {
 			cordova.file.readJSONFromFile({
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json'
