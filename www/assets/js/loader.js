@@ -122,10 +122,11 @@ $( document ).ready(function() {
 				  Promise: Promise // Your favorite Promise/A+ library!
 				});
 
-				fs.create('teste.txt');
-				fs.read('teste.txt').then(function(content){
-					alert("conteudo: " + content);
-				}, alert('problema ao ler arquivo'));
+				fs.create('teste.txt').then(function() {
+					fs.read('teste.txt').then(function(content){
+						alert("conteudo: " + content);
+					}, alert('problema ao ler arquivo'));
+				});
 			}
 
 			/*fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
