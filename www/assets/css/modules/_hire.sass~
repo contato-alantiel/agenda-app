@@ -1,3 +1,6 @@
+#customer 
+  font-size: 10px
+
 .custom-combobox 
   position: relative
   display: inline-block
@@ -164,7 +167,7 @@
 @media (max-width: 600px)
 
   .hire
-    min-height: 470px;
+    min-height: 470px
 
   .work-request
 

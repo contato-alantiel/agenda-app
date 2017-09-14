@@ -36,7 +36,7 @@
             <p>Rodrigo Herman - Fisioterapeuta</p>
           </a>
 
-          <div class="header--nav-toggle">
+          <div class="header--nav-toggle hide">
             <span></span>
           </div>
         </header>
@@ -285,8 +285,8 @@
 						<table id="customer">
 							<thead>
 							  <tr>
-								<th>Id</th>
-									<th>Name</th>
+									<th>Id</th>
+									<th>Nome</th>
 									<th>Email</th>
 								<th>Acões</th>
 							  </tr>

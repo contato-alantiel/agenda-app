@@ -23,6 +23,21 @@ $( document ).ready(function() {
 		$("#customer tbody").html("");
 	 }
 
+	 editCustomer = function(id){
+		var request = db.transaction(["customer"], "readwrite")
+                .objectStore("customer")
+                .get(id);
+        request.onsuccess = function(event) {
+			  var customer = request.result;
+			  $("#customer-id").val(customer.id);
+			  $("#customer-name").val(customer.customerName);
+			  $("#customer-email").val(customer.customerEmail);
+			  $("#customer-report").val(customer.customerReport);
+
+			  $('#see-customer-list').click();
+        };
+	 }
+
 	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {
 			"customer": {
@@ -34,7 +49,6 @@ $( document ).ready(function() {
 	   	var row = document.createElement("tr");
    		var html = ["<tr>"];
 
-		html = html.concat([renderTD(values, 'id')]);
 		html = html.concat([renderTD(values, 'customerName')]);
 		html = html.concat([renderTD(values, 'customerEmail')]);
 
@@ -55,6 +69,25 @@ $( document ).ready(function() {
 		result.push("</td>")
 
 		return result.join("");
+	}
+
+	updateCustomer = function (id, customerOBJ){
+		customerOBJ.id = parseInt(id);
+		var request = db.transaction(["customer"], "readwrite")
+                .objectStore("customer")					
+					 .put(customerOBJ);
+                                 
+        request.onsuccess = function(event) {
+                alert("Paciente alterado com sucesso");
+				$("form:visible")[0].reset();
+				loadCustomers();
+        };
+         
+        request.onerror = function(event) {
+                alert("Ocorreu algum erro! ");       
+        }
+
+		console.log(customerOBJ);
 	}
 
 	addToCustomer = function (customerOBJ){
@@ -95,10 +128,17 @@ $( document ).ready(function() {
 
 		if (isValid) {
 			var customer = {};
-		     
+		   
 			customer.customerName = $("#customer-name").val();
 			customer.customerEmail = $("#customer-email").val();
-			addToCustomer(customer);
+			customer.customerReport = $("#customer-report").val();
+
+			var id = $("#customer-id").val();
+			if(id != "" && id != 0) {
+				updateCustomer(id, customer);
+			} else {
+				addToCustomer(customer);
+			}
 		}
 	});
 
