@@ -97,7 +97,7 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(content) {
-					callback(content);
+					callback(content[database]);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)
