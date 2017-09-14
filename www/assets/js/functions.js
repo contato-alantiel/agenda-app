@@ -166,7 +166,7 @@ document.addEventListener("deviceready", function () {
       }
       else {
         updateNavs(nextPos);
-        updateContent(curPos, nextPos, lastItem);
+        updateContent(curPos, curPos, lastItem);
       }
     }
 
