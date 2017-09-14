@@ -2,15 +2,16 @@ $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		
 	 initCustomers = function (){
-		alert('initCustomers');
 		loadCustomers();
 	 }
 
 
-    function loadCustomers(){
+    loadCustomers = function (){
 		var objectStore = db.transaction("customer").objectStore("customer");
 		emptyCustomerTable();
   
+		alert('loadCustomers');
+
         objectStore.openCursor().onsuccess = function(event) {
 		    var cursor = event.target.result;
 		    if (cursor) {
@@ -22,11 +23,11 @@ $( document ).ready(function() {
     }
 
 
-	 function emptyCustomerTable(){
+	 emptyCustomerTable = function (){
 		$("#customer tbody").html("");
 	 }
 
-	 function addRowInHTMLTable(tableName, key, values){
+	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {
 			"customer": {
    			"Editar": "editCustomer",
@@ -51,7 +52,7 @@ $( document ).ready(function() {
    		table.appendChild(row);
 	}
 
-	function renderTD(obj, key){
+	renderTD = function (obj, key){
 		var result = [];
 		result.push("<td class='", key, "'>");
 		result.push(obj[key]);
@@ -60,7 +61,7 @@ $( document ).ready(function() {
 		return result.join("");
 	}
 
-	function addToCustomer(customerOBJ){
+	addToCustomer = function (customerOBJ){
 
 		var request = db.transaction(["customer"], "readwrite")
                 .objectStore("customer")
@@ -79,7 +80,7 @@ $( document ).ready(function() {
 		console.log(customerOBJ);
 	}
    
-	function removeFromCustomer(itemId){
+	removeFromCustomer = function (itemId){
 		var request = db.transaction(["customer"], "readwrite")
                 .objectStore("customer")
                 .delete(itemId);
