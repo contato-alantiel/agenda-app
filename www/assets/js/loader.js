@@ -3,6 +3,15 @@ var db;
 //TODO validar sempre se eh necessario resetar
 var restoreDB = true; // true/false - reset and import
 
+if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+  window.setTimeout(function() {
+		 var e = document.createEvent('Events'); 
+		 e.initEvent("deviceready", true, false); 
+		 document.dispatchEvent(e);
+  }, 50);
+  var cordova = {file:{}};
+}
+
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		if( restoreDB && window.indexedDB.deleteDatabase("RodrigoFisio"))
