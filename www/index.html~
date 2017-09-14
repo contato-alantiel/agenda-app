@@ -363,14 +363,16 @@
 </div>
 
 <script type="text/javascript" src="cordova.js"></script>
-<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
 
+<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
 <script type = "text/javascript" src = "assets/js/vendor/jquery-ui.min.js"></script>
 
-<script src="assets/js/functions.js"></script>
 <script src="assets/js/loader.js"></script>
 <script src="assets/js/customers.js"></script>
 <script src="assets/js/scheduler.js"></script>
+
+<script src="assets/js/vendor/hammer-2.0.8.js"></script>
+<script src="assets/js/functions.js"></script>
 </body>
 
 </html>

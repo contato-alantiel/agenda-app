@@ -2,19 +2,17 @@ $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		
 	 initCustomers = function (){
-		alert('initCustomers');
 		loadCustomers();
 	 }
 
 
     loadCustomers = function (){
 		var objectStore = db.transaction("customer").objectStore("customer");
-		emptyCustomerTable();
-  
+		  emptyCustomerTable();
+ 
         objectStore.openCursor().onsuccess = function(event) {
 		    var cursor = event.target.result;
 		    if (cursor) {
-				alert(cursor.key);
 				addRowInHTMLTable("customer", cursor.key, cursor.value);
 		        cursor.continue();
 		    }

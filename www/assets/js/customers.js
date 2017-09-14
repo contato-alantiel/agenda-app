@@ -5,17 +5,13 @@ $( document ).ready(function() {
 		loadCustomers();
 	 }
 
-
     loadCustomers = function (){
 		var objectStore = db.transaction("customer").objectStore("customer");
-		emptyCustomerTable();
-  
-		alert('loadCustomers');
-
+		  emptyCustomerTable();
+ 
         objectStore.openCursor().onsuccess = function(event) {
 		    var cursor = event.target.result;
 		    if (cursor) {
-				alert(cursor.key);
 				addRowInHTMLTable("customer", cursor.key, cursor.value);
 		        cursor.continue();
 		    }
