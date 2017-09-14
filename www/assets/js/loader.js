@@ -79,8 +79,7 @@ $( document ).ready(function() {
 				fileEntry.file(function (file) {
 					var reader = new FileReader();
 					reader.onloadend = function() {
-						alert(this.result);
-						callback.success(this.result);
+						callback.success(JSON.parse(this.result));
 					};
 
 					reader.readAsText(file); //trigger to get file content
@@ -91,16 +90,14 @@ $( document ).ready(function() {
 		  })
 		}
 
-		readDatabase = function(database) {
-			alert('readDatabase ' + database);
+		readLocalDatabase = function(database) {
 			cordova.file.readJSONFromFile({
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json'
 			  },
 			  {
 				 success: function(content) {
-					alert('Leitura concluida: ' + content);
-					callback(content);
+					callback(content[database]);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)
@@ -129,7 +126,7 @@ $( document ).ready(function() {
 
 		loadDatabase = function(database, callback, offline = false) {
 			if(offline) {
-				readDatabase(database, callback);				
+				readLocalDatabase(database, callback);				
 			} else {
 				$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
 				function(data) 
