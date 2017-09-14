@@ -127,8 +127,8 @@ $( document ).ready(function() {
 						fs.create('rodrigo-teste.txt', 'teste');
 						fs.read('rodrigo-teste.txt').then(function(content){
 							alert("conteudo: " + content);
-						}, alert('problema ao ler arquivo'));
-					});
+						});
+					}, alert('problema ao criar arquivo'));
 				})
 			}
 

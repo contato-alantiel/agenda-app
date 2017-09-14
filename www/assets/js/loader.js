@@ -98,6 +98,25 @@ $( document ).ready(function() {
 		  })
 		}
 
+		cordova.file.readJSONFromFile = function(params, callback) {
+		  window.resolveLocalFileSystemURL(params.path, function(dir) {
+			 dir.getFile(params.fileName, {create:true}, function(file) {
+				if(!file) return callback.error('dir.getFile failed')
+				file.createWriter(
+				  function(fileWriter) {
+				    if (params.append == true) fileWriter.seek(fileWriter.length)
+				    var blob = new Blob([params.text], {type:'text/plain'})
+				    fileWriter.write(blob)
+				    callback.success(file)
+				  },
+				  function(error) {
+				    callback.error(error)
+				  }
+				)
+			 })
+		  })
+		}
+
 		dowanloadDatabase = function(data, database) {
 			cordova.file.writeTextToFile({
 				 text:  JSON.stringify(data[database]),
@@ -124,7 +143,7 @@ $( document ).ready(function() {
 
 				fs.deviceready.then(function(){
 					fs.create('rodrigo-teste.txt').then(function() {
-						fs.create('rodrigo-teste.txt', 'teste');
+						fs.write('rodrigo-teste.txt', 'teste');
 						fs.read('rodrigo-teste.txt').then(function(content){
 							alert("conteudo: " + content);
 						});
