@@ -101,7 +101,7 @@ $( document ).ready(function() {
 		cordova.file.readJSONFromFile = function(params, callback) {
 		  window.resolveLocalFileSystemURL(params.path, function(dir) {
 			 dir.getFile(params.fileName, {create:false}, function(fileEntry) {
-				if(!file) return callback.error('dir.getFile failed')
+				if(!fileEntry) return callback.error('dir.getFile failed')
 
 				fileEntry.file(function (file) {
 					var reader = new FileReader();
@@ -121,6 +121,7 @@ $( document ).ready(function() {
 		}
 
 		readDatabase = function(database) {
+			alert(' read');
 			cordova.file.readJSONFromFile({
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json'
@@ -133,7 +134,7 @@ $( document ).ready(function() {
 				 error: function(error) {
 					alert('Erro no download: ' + error)
 				 }
-			  });
+			 });
 		}
 
 		dowanloadDatabase = function(data, database) {
@@ -148,7 +149,8 @@ $( document ).ready(function() {
 					alert('Download concluido: ' + file.nativeURL);
 
 					if(database === 'customers') {
-							readDatabase(database);			
+						alert('before read');
+						readDatabase(database);			
 					}
 				 },
 				 error: function(error) {
