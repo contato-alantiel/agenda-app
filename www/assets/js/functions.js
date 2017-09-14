@@ -2,6 +2,7 @@
 
 
 $( document ).ready(function() {
+document.addEventListener("deviceready", function () {
 
   // DOMMouseScroll included for firefox support
   var canScroll = true,
@@ -254,4 +255,5 @@ $( document ).ready(function() {
   outerNav();
   transitionLabels();
 
-});
+}); //cordova ready
+}); //jquery ready

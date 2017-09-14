@@ -86,8 +86,8 @@ $( document ).ready(function() {
 		loadScheduledTimeFromBackup(db, offline);
 		loadBlockedTimeFromBackup(db, offline);
 
-		initScheduler();
 		initCustomers();
+		initScheduler();
 
 		updateNavs(nextPos);
 		updateContent(curPos, nextPos, lastItem);
