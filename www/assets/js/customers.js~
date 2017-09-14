@@ -6,7 +6,7 @@ $( document ).ready(function() {
 	 }
 
 
-     function loadCustomers(){
+    function loadCustomers(){
 		var objectStore = db.transaction("customer").objectStore("customer");
 		emptyCustomerTable();
   
@@ -17,7 +17,7 @@ $( document ).ready(function() {
 		        cursor.continue();
 		    }
         }; 
-     }
+    }
 
 
 	 function emptyCustomerTable(){

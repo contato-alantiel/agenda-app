@@ -2,6 +2,7 @@ $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		
 	 function initCustomers(){
+		alert('initScheduler');
 		loadCustomers();
 	 }
 

@@ -82,12 +82,15 @@ document.addEventListener("deviceready", function () {
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 
 	var successLogin = function(offline = false) {
-		alert('offline: ' + offline);
+		alert('offline: ' + offline + ' db: ' + db);
 		loadCustomerFromBackup(db, offline);
+		alert('customers loaded ');
 		loadScheduledTimeFromBackup(db, offline);
 		loadBlockedTimeFromBackup(db, offline);
 
+		alert('before initCustomers ');
 		initCustomers();
+		alert('before initScheduler ');
 		initScheduler();
 
 		updateNavs(nextPos);
