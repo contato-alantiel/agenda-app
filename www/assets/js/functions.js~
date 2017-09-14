@@ -80,6 +80,19 @@ $( document ).ready(function() {
     var expires = "expires="+ d.toUTCString();
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 
+	var successLogin = function(offline = false) {
+		alert('offline: ' + offline);
+		loadCustomerFromBackup(db, offline);
+		loadScheduledTimeFromBackup(db, offline);
+		loadBlockedTimeFromBackup(db, offline);
+
+		updateNavs(nextPos);
+		updateContent(curPos, nextPos, lastItem);
+		$("#user-pass").val("");
+
+		$( this ).dialog( "close" );
+	}
+
 	//TODO fazer validacao backend
 	if(cookieValue === 'f-' || cookieValue === 'rodrigo-admin123') {
 		$( "#dialog-offline" ).dialog({
@@ -89,23 +102,10 @@ $( document ).ready(function() {
 		  modal: true,
 		  buttons: {
 			"Baixar versão online": function() {
-			  alert('baixar');
-
-			  updateNavs(nextPos);
-			  updateContent(curPos, nextPos, lastItem);
-			  $("#user-pass").val("")
-
-			  $( this ).dialog( "close" );
+			  successLogin(false);
 			},
 			"Trabalhar offline": function() {
-			  alert('offline')
-
-			  updateNavs(nextPos);
-			  updateContent(curPos, nextPos, lastItem);
-			  $("#user-pass").val("")
-
-			  $( this ).dialog( "close" );
-
+			  successLogin(true);
 			}
 		  }
 		});

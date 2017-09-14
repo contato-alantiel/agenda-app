@@ -89,6 +89,7 @@ $( document ).ready(function() {
 		}
 
 		readDatabase = function(database) {
+			alert('readDatabase ' + database);
 			cordova.file.readJSONFromFile({
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json'
@@ -96,7 +97,7 @@ $( document ).ready(function() {
 			  {
 				 success: function(content) {
 					alert('Leitura concluida: ' + content);
-					
+					callback(content);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)
@@ -125,7 +126,7 @@ $( document ).ready(function() {
 
 		loadDatabase = function(database, callback, offline = false) {
 			if(offline) {
-				readDatabase(database);				
+				readDatabase(database, callback);				
 			} else {
 				$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
 				function(data) 

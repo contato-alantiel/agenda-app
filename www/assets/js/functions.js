@@ -89,8 +89,6 @@ $( document ).ready(function() {
 		updateNavs(nextPos);
 		updateContent(curPos, nextPos, lastItem);
 		$("#user-pass").val("");
-
-		$( this ).dialog( "close" );
 	}
 
 	//TODO fazer validacao backend
@@ -103,9 +101,11 @@ $( document ).ready(function() {
 		  buttons: {
 			"Baixar versão online": function() {
 			  successLogin(false);
+			  $( this ).dialog( "close" );
 			},
 			"Trabalhar offline": function() {
 			  successLogin(true);
+			  $( this ).dialog( "close" );
 			}
 		  }
 		});
