@@ -336,11 +336,6 @@ $( document ).ready(function() {
 						delay: 0,
 						minLength: 0,
 						source: $.proxy( this, "_source" )
-					  })
-					  .tooltip({
-						classes: {
-						  "ui-tooltip": "ui-state-highlight"
-						}
 					  });
 
 					this._on( this.input, {
@@ -361,7 +356,7 @@ $( document ).ready(function() {
 
 					$( "<a>" )
 					  .attr( "tabIndex", -1 )
-					  .attr( "title", "Todos" )
+					  .attr( "title", "" )
 					  .tooltip()
 					  .appendTo( this.wrapper )
 					  .button({
