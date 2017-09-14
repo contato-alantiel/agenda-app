@@ -2,7 +2,7 @@ $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		
 	 initCustomers = function (){
-		alert('initScheduler');
+		alert('initCustomers');
 		loadCustomers();
 	 }
 
@@ -14,6 +14,7 @@ $( document ).ready(function() {
         objectStore.openCursor().onsuccess = function(event) {
 		    var cursor = event.target.result;
 		    if (cursor) {
+				alert(cursor.key);
 				addRowInHTMLTable("customer", cursor.key, cursor.value);
 		        cursor.continue();
 		    }

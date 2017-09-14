@@ -88,7 +88,9 @@ document.addEventListener("deviceready", function () {
 		loadScheduledTimeFromBackup(db, offline);
 		loadBlockedTimeFromBackup(db, offline);
 
+		alert('before initCustomers ');
 		initCustomers();
+		alert('before initScheduler ');
 		initScheduler();
 
 		updateNavs(nextPos);
