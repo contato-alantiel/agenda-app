@@ -1,6 +1,7 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
-        function initScheduler(){
+         function initScheduler(){
+				alert('initScheduler');
 				comboboxUI();
 				scheculerSlider();
 

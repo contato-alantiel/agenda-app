@@ -79,8 +79,6 @@ $( document ).ready(function() {
 				fileEntry.file(function (file) {
 					var reader = new FileReader();
 					reader.onloadend = function() {
-						alert("readJSONFromFile " + this.result);
-						alert("readJSONFromFile parse" + JSON.parse(this.result));
 						callback.success(JSON.parse(this.result));
 					};
 
@@ -143,7 +141,7 @@ $( document ).ready(function() {
 			loadDatabase('customers', function(customers) {
 				var customerStore = db.transaction(["customer"], "readwrite")
 				    .objectStore("customer")
-				alert("JSON.stringify customers " + JSON.stringify(customers));
+
 				for(i=0; i<customers.length; i++) {
 					customerStore.add(customers[i]);
 				}
