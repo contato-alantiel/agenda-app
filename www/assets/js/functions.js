@@ -64,19 +64,20 @@ document.addEventListener("deviceready", function () {
 
   $('.cta').click(function(){
 
-    var curActive = $('.side-nav').find('.is-active'),
-        curPos = $('.side-nav').children().index(curActive),
-        lastItem = $('.side-nav').children().length - 1,
-        nextPos = curPos + 1;
+	var curActive = $('.side-nav').find('.is-active'),
+	curPos = $('.side-nav').children().index(curActive),
+	lastItem = $('.side-nav').children().length - 1,
+	nextPos = curPos + 1;
 
-    var d = new Date();
+	var d = new Date();
 	var cookieName = 'sessionlogin';
 	var cookieValue = $("#user-login").val() + '-' + $("#user-pass").val();
-ler
+
 	var expirationDays = 2;
-    d.setTime(d.getTime() + (expirationDays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+	d.setTime(d.getTime() + (expirationDays*24*60*60*1000));
+
+	var expires = "expires="+ d.toUTCString();
+	document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 
 	var successLogin = function(offline = false) {
 		loadCustomerFromBackup(db, offline);
