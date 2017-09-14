@@ -83,6 +83,8 @@ $( document ).ready(function() {
 						callback.success(this.result);
 					};
 
+					reader.readAsText(file); //trigger to get file content
+
 				}, function() { alert('error') });
 				
 			 })
