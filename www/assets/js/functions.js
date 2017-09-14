@@ -86,12 +86,14 @@ document.addEventListener("deviceready", function () {
 		loadScheduledTimeFromBackup(db, offline);
 		loadBlockedTimeFromBackup(db, offline);
 
-		initCustomers();
-		initScheduler();
+		setTimeout(function(){ 
+			initCustomers();
+			initScheduler();
 
-		updateNavs(nextPos);
-		updateContent(curPos, nextPos, lastItem);
-		$("#user-pass").val("");
+			updateNavs(nextPos);
+			updateContent(curPos, nextPos, lastItem);
+			$("#user-pass").val("");
+		}, 1000);
 	}
 
 	//TODO fazer validacao backend
