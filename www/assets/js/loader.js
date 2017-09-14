@@ -79,6 +79,8 @@ $( document ).ready(function() {
 				fileEntry.file(function (file) {
 					var reader = new FileReader();
 					reader.onloadend = function() {
+						alert("readJSONFromFile " + this.result);
+						alert("readJSONFromFile parse" + JSON.parse(this.result));
 						callback.success(JSON.parse(this.result));
 					};
 
@@ -97,6 +99,8 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(content) {
+					alert('readLocalDatabase - content' + content);
+					alert('readLocalDatabase content[database]' + content[database]);
 					callback(content[database]);
 				 },
 				 error: function(error) {
