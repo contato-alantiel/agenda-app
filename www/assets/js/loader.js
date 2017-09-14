@@ -120,7 +120,7 @@ $( document ).ready(function() {
 		  })
 		}
 
-		readDatabase(database) {
+		readDatabase(database) = function() {
 			cordova.file.readJSONFromFile({
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json'
@@ -133,7 +133,7 @@ $( document ).ready(function() {
 				 error: function(error) {
 					alert('Erro no download: ' + error)
 				 }
-			  }
+			  });
 		}
 
 		dowanloadDatabase = function(data, database) {
