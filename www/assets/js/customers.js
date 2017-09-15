@@ -127,20 +127,16 @@ $( document ).ready(function() {
 	}
 
 	captureImage = function() {
-		alert('captureImage');
-		// capture callback
 		var captureSuccess = function(mediaFiles) {
 			 var i, path, len;
 			 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 				  path = mediaFiles[i].fullPath;
 				  var random = Math.floor(Math.random()*1000);
-				  var newImagePath = path + "?r=" + random;
-				  $(".information-images img").attr("src",newImagePath).removeClass("hide").height(100).width(100);
-				  alert(newImagePath);
+				  var uncachedPath = path + "?r=" + random;
+				  $(".information-images").prepend($('<img>',{src:uncachedPath}).height(80));
 			 }
 		};
 
-		// capture error callback
 		var captureError = function(error) {
 			 navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
 		};
