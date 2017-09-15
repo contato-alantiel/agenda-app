@@ -1181,31 +1181,33 @@ a {
 }
 /* line 108, modules/_hire.sass */
 .work-request--information .information-name,
-.work-request--information .information-email {
+.work-request--information .information-email,
+.work-request--information .information-phone {
   position: relative;
   width: 75%;
   height: 50px;
   font-size: 30px;
   font-weight: 300;
 }
-/* line 117, modules/_hire.sass */
+/* line 118, modules/_hire.sass */
 .work-request--information .information-report {
   width: 100%;
   position: relative;
 }
-/* line 121, modules/_hire.sass */
+/* line 122, modules/_hire.sass */
 .work-request--information .information-report label {
   font-size: 22px;
 }
-/* line 124, modules/_hire.sass */
+/* line 125, modules/_hire.sass */
 .work-request--information .information-report textarea {
   width: 100%;
   margin-top: 35px;
   color: #666;
 }
-/* line 129, modules/_hire.sass */
+/* line 130, modules/_hire.sass */
 .work-request--information input[type="text"],
-.work-request--information input[type="email"] {
+.work-request--information input[type="email"],
+.work-request--information input[type="number"] {
   width: 100%;
   padding: 0 0 5px 0;
   background-color: transparent;
@@ -1213,13 +1215,14 @@ a {
   border-bottom: 1px solid #fff;
   border-radius: 0;
 }
-/* line 138, modules/_hire.sass */
+/* line 140, modules/_hire.sass */
 .work-request--information input[type="text"]:focus,
-.work-request--information input[type="email"]:focus {
+.work-request--information input[type="email"]:focus,
+.work-request--information input[type="number"]:focus {
   outline: none;
   background-color: #0c0c0c;
 }
-/* line 142, modules/_hire.sass */
+/* line 144, modules/_hire.sass */
 .work-request--information label {
   position: absolute;
   top: 0;
@@ -1227,7 +1230,7 @@ a {
   pointer-events: none;
   transition: top 0.2s ease-in-out, font-size 0.2s ease-in-out;
 }
-/* line 149, modules/_hire.sass */
+/* line 151, modules/_hire.sass */
 .work-request--information input:focus + label,
 .work-request--information input.has-value + label {
   top: -5px;
@@ -1235,12 +1238,12 @@ a {
 }
 
 @media (max-width: 767px) {
-  /* line 158, modules/_hire.sass */
+  /* line 160, modules/_hire.sass */
   .work-request--options {
     flex-direction: row;
     justify-content: space-around;
   }
-  /* line 162, modules/_hire.sass */
+  /* line 164, modules/_hire.sass */
   .work-request--options .options-a,
   .work-request--options .options-b {
     display: block;
@@ -1248,40 +1251,41 @@ a {
   }
 }
 @media (max-width: 600px) {
-  /* line 169, modules/_hire.sass */
+  /* line 171, modules/_hire.sass */
   .hire {
     min-height: 470px;
   }
 
-  /* line 174, modules/_hire.sass */
+  /* line 176, modules/_hire.sass */
   .work-request--options {
     margin: 20px 0;
   }
 }
 @media (max-width: 600px) and (max-width: 415px) {
-  /* line 174, modules/_hire.sass */
+  /* line 176, modules/_hire.sass */
   .work-request--options {
     justify-content: space-between;
   }
 }
 @media (max-width: 600px) {
-  /* line 180, modules/_hire.sass */
+  /* line 182, modules/_hire.sass */
   .work-request--options label {
     width: 150px;
     margin-bottom: 15px;
     font-size: 14px;
   }
-  /* line 189, modules/_hire.sass */
+  /* line 191, modules/_hire.sass */
   .work-request--options input[type="checkbox"]:checked + label svg {
     width: 12px;
   }
-  /* line 192, modules/_hire.sass */
+  /* line 194, modules/_hire.sass */
   .work-request--information {
     margin-bottom: 30px;
   }
-  /* line 195, modules/_hire.sass */
+  /* line 197, modules/_hire.sass */
   .work-request--information .information-name,
-  .work-request--information .information-email {
+  .work-request--information .information-email,
+  .work-request--information .information-phone {
     height: 40px;
     font-size: 24px;
   }

@@ -30,8 +30,8 @@
     max-width: 100%
 
   h2
-    margin: 0 0 20px 0
-    font-size: 30px
+    margin: 0 0 15px 0
+    font-size: 22px
     text-align: center
 
 .work-request
@@ -106,7 +106,8 @@
     margin-bottom: 60px
 
     .information-name,
-    .information-email
+    .information-email,
+    .information-phone
       position: relative
       width: 75%
       height: 50px
@@ -193,6 +194,7 @@
       margin-bottom: 30px
 
       .information-name,
-      .information-email
+      .information-email,
+      .information-phone
         height: 40px
         font-size: 24px

@@ -32,6 +32,7 @@ $( document ).ready(function() {
 			  $("#customer-id").val(customer.id);
 			  $("#customer-name").val(customer.customerName);
 			  $("#customer-email").val(customer.customerEmail);
+			  $("#customer-phone").val(customer.customerPhone);
 			  $("#customer-report").val(customer.customerReport);
 
 			  $('#see-customer-list').click();
@@ -50,7 +51,7 @@ $( document ).ready(function() {
    		var html = ["<tr>"];
 
 		html = html.concat([renderTD(values, 'customerName')]);
-		html = html.concat([renderTD(values, 'customerEmail')]);
+		html = html.concat([renderTD(values, 'customerPhone')]);
 
    		html.push("<td class = 'action'>");
 	   	for (var action in actions[tableName]) {
@@ -65,7 +66,13 @@ $( document ).ready(function() {
 	renderTD = function (obj, key){
 		var result = [];
 		result.push("<td class='", key, "'>");
+		if(key === 'customerPhone') {
+			result.push("<a href='tel:" + obj[key] + "'>");
+		}
 		result.push(obj[key]);
+		if(key === 'customerPhone') {
+			result.push("</a>");
+		}
 		result.push("</td>")
 
 		return result.join("");
@@ -131,6 +138,7 @@ $( document ).ready(function() {
 		   
 			customer.customerName = $("#customer-name").val();
 			customer.customerEmail = $("#customer-email").val();
+			customer.customerPhone = $("#customer-phone").val();
 			customer.customerReport = $("#customer-report").val();
 
 			var id = $("#customer-id").val();
