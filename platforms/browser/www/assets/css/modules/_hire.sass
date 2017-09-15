@@ -1,3 +1,6 @@
+#customer 
+  font-size: 10px
+
 .custom-combobox 
   position: relative
   display: inline-block
@@ -27,8 +30,8 @@
     max-width: 100%
 
   h2
-    margin: 0 0 20px 0
-    font-size: 30px
+    margin: 0 0 15px 0
+    font-size: 22px
     text-align: center
 
 .work-request
@@ -103,7 +106,8 @@
     margin-bottom: 60px
 
     .information-name,
-    .information-email
+    .information-email,
+    .information-phone
       position: relative
       width: 75%
       height: 50px
@@ -124,7 +128,8 @@
         color: #666
 
     input[type="text"],
-    input[type="email"]
+    input[type="email"],
+    input[type="number"]
       width: 100%
       padding: 0 0 5px 0
       background-color: transparent
@@ -163,6 +168,9 @@
 
 @media (max-width: 600px)
 
+  .hire
+    min-height: 470px
+
   .work-request
 
     &--options
@@ -187,6 +195,7 @@
       margin-bottom: 30px
 
       .information-name,
-      .information-email
+      .information-email,
+      .information-phone
         height: 40px
         font-size: 24px

@@ -1,6 +1,5 @@
-// @codekit-prepend "/vendor/hammer-2.0.8.js";
-
 $( document ).ready(function() {
+document.addEventListener("deviceready", function () {
 
   // DOMMouseScroll included for firefox support
   var canScroll = true,
@@ -65,25 +64,57 @@ $( document ).ready(function() {
 
   $('.cta').click(function(){
 
-    var curActive = $('.side-nav').find('.is-active'),
-        curPos = $('.side-nav').children().index(curActive),
-        lastItem = $('.side-nav').children().length - 1,
-        nextPos = curPos + 1;
+	var curActive = $('.side-nav').find('.is-active'),
+	curPos = $('.side-nav').children().index(curActive),
+	lastItem = $('.side-nav').children().length - 1,
+	nextPos = curPos + 1;
 
-    var d = new Date();
+	var d = new Date();
 	var cookieName = 'sessionlogin';
 	var cookieValue = $("#user-login").val() + '-' + $("#user-pass").val();
 
 	var expirationDays = 2;
-    d.setTime(d.getTime() + (expirationDays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+	d.setTime(d.getTime() + (expirationDays*24*60*60*1000));
+
+	var expires = "expires="+ d.toUTCString();
+	document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+
+	var successLogin = function(offline = false) {
+		loadCustomerFromBackup(db, offline);
+		loadScheduledTimeFromBackup(db, offline);
+		loadBlockedTimeFromBackup(db, offline);
+
+		setTimeout(function(){ 
+			initCustomers();
+			initScheduler();
+
+			updateNavs(nextPos);
+			updateContent(curPos, nextPos, lastItem);
+			$("#user-pass").val("");
+			$('.header--nav-toggle').removeClass('hide');
+		}, 1000);
+	}
 
 	//TODO fazer validacao backend
-	if(cookieValue === 'f-' || cookieValue === 'rodrigo-admin123') {
-		updateNavs(nextPos);
-		updateContent(curPos, nextPos, lastItem);
-		$("#user-pass").val("")
+	if(cookieValue.toLowerCase() === 'f-' || cookieValue === 'rodrigo-admin123') {
+		$( "#dialog-offline" ).dialog({
+		  resizable: true,
+		  height: "auto",
+		  width: "auto",
+		  modal: true,
+		  closeOnEscape: false,
+		  buttons: {
+			"Baixar versão online": function() {
+			  successLogin(false);
+			  $( this ).dialog( "close" );
+			},
+			"Trabalhar offline": function() {
+			  successLogin(true);
+			  $( this ).dialog( "close" );
+			}
+		  }
+		});
+		
 	} else {
 		alert('Ops! Login incorreto.');
 	}
@@ -129,14 +160,14 @@ $( document ).ready(function() {
       }
     }
     else if (param.type === "swipedown" || param.keyCode === 38 || param < 0){
-      if (curPos !== 0){
+      if (curPos !== 0 && curPos !== 1){
         nextPos = curPos - 1;
         updateNavs(nextPos);
         updateContent(curPos, nextPos, lastItem);
       }
       else {
-        updateNavs(nextPos);
-        updateContent(curPos, nextPos, lastItem);
+        updateNavs(curPos);
+        updateContent(curPos, curPos, lastItem);
       }
     }
 
@@ -224,4 +255,5 @@ $( document ).ready(function() {
   outerNav();
   transitionLabels();
 
-});
+}); //cordova ready
+}); //jquery ready

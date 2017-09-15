@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
-        window.setTimeout(function(){
+         initScheduler = function (){
 				comboboxUI();
 				scheculerSlider();
 
@@ -9,9 +9,9 @@ $( document ).ready(function() {
 
 				loadDaySchedule(prefixNow);
 				loadWeekSchedule(prefixNow);
-			}, 400);
+			}
 
-			function loadCustomers() {
+			function loadCustomersCombobox() {
 				$('#combobox').find('option:gt(0)').remove();
 				$('#combobox option:eq(0)').prop('selected', true)
 
@@ -151,7 +151,7 @@ $( document ).ready(function() {
 					function(e){
 						var objThis = $(e.target);
 
-						loadCustomers();
+						loadCustomersCombobox();
 
 						$( "#dialog-free" ).find(".confirm-time").text(objThis.text());
 
@@ -310,7 +310,7 @@ $( document ).ready(function() {
 			}
 
 			function comboboxUI() {
-				loadCustomers();
+				loadCustomersCombobox();
 
 				$.widget( "custom.combobox", {
 					_create: function() {
@@ -336,11 +336,6 @@ $( document ).ready(function() {
 						delay: 0,
 						minLength: 0,
 						source: $.proxy( this, "_source" )
-					  })
-					  .tooltip({
-						classes: {
-						  "ui-tooltip": "ui-state-highlight"
-						}
 					  });
 
 					this._on( this.input, {
@@ -361,7 +356,7 @@ $( document ).ready(function() {
 
 					$( "<a>" )
 					  .attr( "tabIndex", -1 )
-					  .attr( "title", "Todos" )
+					  .attr( "title", "" )
 					  .tooltip()
 					  .appendTo( this.wrapper )
 					  .button({

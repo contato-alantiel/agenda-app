@@ -286,7 +286,7 @@
 							<thead>
 							  <tr>
 									<th>Nome</th>
-									<th>Email</th>
+									<th>Telefone</th>
 								<th>Acões</th>
 							  </tr>
 							</thead>
@@ -304,6 +304,10 @@
 						   <div class="information-email">
 						     <input id="customer-email" type="email" spellcheck="false" placeholder="E-mail">
 						   </div> <!--.information-email-->
+
+							<div class="information-phone">
+						     <input id="customer-phone" type="number" spellcheck="false" placeholder="Telefone">
+						   </div> <!--.information-phone-->
 
 							<div class="information-report">
 								<textarea id="customer-report" spellcheck="false"></textarea>

@@ -3,6 +3,16 @@ var db;
 //TODO validar sempre se eh necessario resetar
 var restoreDB = true; // true/false - reset and import
 
+if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+  window.setTimeout(function() {
+		 var e = document.createEvent('Events'); 
+		 e.initEvent("deviceready", true, false); 
+		 document.dispatchEvent(e);
+  }, 50);
+  var cordova = {file:{}};
+  var isWeb = true;
+}
+
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 		if( restoreDB && window.indexedDB.deleteDatabase("RodrigoFisio"))
@@ -31,9 +41,6 @@ $( document ).ready(function() {
 
 		  if( restoreDB ) {
 			  createFreeTime(db);
-			  loadCustomerFromBackup(db);
-			  loadScheduledTimeFromBackup(db);
-			  loadBlockedTimeFromBackup(db);
 		  }
 		};
 
@@ -55,30 +62,6 @@ $( document ).ready(function() {
 				blockedTimeStore.createIndex("time", "time", { unique: false });
 		}
 
-		/*dowanloadDatabase = function(database) {
-			var fileURL = cordova.file.dataDirectory + 'testerodrigo.gif';
-			//var fileURL = 'cdvfile://localhost/persistent/teste.json';
-			var uri = encodeURI("https://49.media.tumblr.com/b9f6d8d738b6da97541f5cbdcb0e8ab5/tumblr_o5w2roswuy1ukldkho1_400.gif");
-
-			var fileTransfer = new FileTransfer();
-
-			fileTransfer.download(
-				 uri,
-				 fileURL,
-				 function(entry) {
-					  alert("download complete: " + fileURL + " - " + entry.toURL());
-				 },
-				 function(error) {
-					  alert("upload error code " + error.code);
-				 },
-				 false,
-				 {
-					  headers: {}
-				 }
-			);
-
-		}*/
-
 		cordova.file.writeTextToFile = function(params, callback) {
 		  window.resolveLocalFileSystemURL(params.path, function(dir) {
 			 dir.getFile(params.fileName, {create:true}, function(file) {
@@ -98,7 +81,45 @@ $( document ).ready(function() {
 		  })
 		}
 
-		dowanloadDatabase = function(data, database) {
+		cordova.file.readJSONFromFile = function(params, callback) {
+		  if(isWeb) {
+			  callback.success([]);
+		  } else {
+			  window.resolveLocalFileSystemURL(params.path, function(dir) {
+				 dir.getFile(params.fileName, {create:false}, function(fileEntry) {
+					if(!fileEntry) return callback.error('dir.getFile failed')
+
+					fileEntry.file(function (file) {
+						var reader = new FileReader();
+						reader.onloadend = function() {
+							callback.success(JSON.parse(this.result));
+						};
+
+						reader.readAsText(file); //trigger to get file content
+
+					}, function() { alert('error') });
+			
+				 })
+			  })
+		  }
+		}
+
+		readLocalDatabase = function(database, callback) {
+			cordova.file.readJSONFromFile({
+				 path: cordova.file.externalDataDirectory,
+				 fileName: 'rodrigo-agenda-' + database + '.json'
+			  },
+			  {
+				 success: function(content) {
+					callback(content);
+				 },
+				 error: function(error) {
+					alert('Erro na leitura: ' + error)
+				 }
+			 });
+		}
+
+		backupDatabase = function(data, database) {
 			cordova.file.writeTextToFile({
 				 text:  JSON.stringify(data[database]),
 				 path: cordova.file.externalDataDirectory,
@@ -107,60 +128,41 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(file) {
-					alert('Download concluido: ' + file.nativeURL);
+					alert('Backup concluido: ' + file.nativeURL);
 				 },
 				 error: function(error) {
-					alert('Erro no download: ' + error)
+					alert('Erro no processo de backup: ' + error)
 				 }
 			  }
 			);
 
-			if(database === 'customers') {
-				var fs = CordovaPromiseFS({
-				  persistent: true, 
-				  storageSize: 20*1024*1024, // storage size in bytes, default 800MB
-				  Promise: Promise // Your favorite Promise/A+ library!
+		}
+
+		loadDatabase = function(database, callback, offline = false) {
+			if(offline) {
+				readLocalDatabase(database, callback);				
+			} else {
+				$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
+				function(data) 
+				{
+					callback(data[database]);
+					backupDatabase(data, database);
 				});
-
-				fs.deviceready.then(function(){
-					fs.create('rodrigo-teste.txt').then(function() {
-						fs.create('rodrigo-teste.txt', 'teste');
-						fs.read('rodrigo-teste.txt').then(function(content){
-							alert("conteudo: " + content);
-						});
-					}, alert('problema ao criar arquivo'));
-				})
 			}
-
-			/*fs.write('rodrigo-teste.txt', 'conteudo').then(function() {
-				alert('arquivo de teste criado com sucesso');
-			}, alert('erro ao escrever arquivo'));*/
-
-			
-			//fs.exists('rodrigo-agenda-customers.json'); // true - fileEntry
-
 		}
 
-		loadDatabase = function(database, callback) {
-			$.getJSON('https://raw.githubusercontent.com/contato-alantiel/agenda/master/data/' + database + '.json?r=' + Math.random(), 
-			function(data) 
-			{
-				callback(data[database]);
-				dowanloadDatabase(data, database);
-			});
-		}
-
-		loadCustomerFromBackup = function(db) {
+		loadCustomerFromBackup = function(db, offline = false) {
 			loadDatabase('customers', function(customers) {
-				var customertStore = db.transaction(["customer"], "readwrite")
+				var customerStore = db.transaction(["customer"], "readwrite")
 				    .objectStore("customer")
+
 				for(i=0; i<customers.length; i++) {
-					customertStore.add(customers[i]);
+					customerStore.add(customers[i]);
 				}
-			});
+			}, offline);
 		}
 
-		loadScheduledTimeFromBackup = function(db) {
+		loadScheduledTimeFromBackup = function(db, offline = false) {
 			loadDatabase('scheduledTimes', function(scheduledTimes) {
 				var scheduledTimeStore = db.transaction(["scheduledTime"], "readwrite")
 				    .objectStore("scheduledTime");
@@ -170,10 +172,10 @@ $( document ).ready(function() {
 					deleteFreeTime(db, scheduledTimes[i].date);
 					scheduledTimeStore.add(scheduledTimes[i]);
 				}
-			});
+			}, offline);
 		}
 
-		loadBlockedTimeFromBackup = function(db) {
+		loadBlockedTimeFromBackup = function(db, offline = false) {
 			loadDatabase('blockedTimes', function(blockedTimes) {
 				var blockedTimesStore = db.transaction(["blockedTime"], "readwrite")
 				    .objectStore("blockedTime");
@@ -183,14 +185,18 @@ $( document ).ready(function() {
 					deleteFreeTime(db, blockedTimes[i].date);
 					blockedTimesStore.add(blockedTimes[i]);
 				}
-			});
+			}, offline);
 		}
 
-		createFreeTime = function(db, n = 10) {
+		createFreeTime = function(db, n = 180) { //seis meses
 			var freeTimeStore = db.transaction(["freeTime"], "readwrite")
 				    .objectStore("freeTime");
 
 			var startDate = new Date();
+			//01/09/2017
+			startDate.setDate(1);
+			startDate.setMonth(8);
+			startDate.setFullYear(2017);
 			startDate.setHours(0);
 		
 			for(i = 0; i<n; i++) {

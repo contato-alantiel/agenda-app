@@ -1,14 +1,14 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
-	 window.setTimeout(function(){
+		
+	 initCustomers = function (){
 		loadCustomers();
-	 }, 1000);
+	 }
 
-
-     function loadCustomers(){
+    loadCustomers = function (){
 		var objectStore = db.transaction("customer").objectStore("customer");
-		emptyCustomerTable();
-  
+		  emptyCustomerTable();
+ 
         objectStore.openCursor().onsuccess = function(event) {
 		    var cursor = event.target.result;
 		    if (cursor) {
@@ -16,14 +16,30 @@ $( document ).ready(function() {
 		        cursor.continue();
 		    }
         }; 
-     }
+    }
 
 
-	 function emptyCustomerTable(){
+	 emptyCustomerTable = function (){
 		$("#customer tbody").html("");
 	 }
 
-	function addRowInHTMLTable(tableName, key, values){
+	 editCustomer = function(id){
+		var request = db.transaction(["customer"], "readwrite")
+                .objectStore("customer")
+                .get(id);
+        request.onsuccess = function(event) {
+			  var customer = request.result;
+			  $("#customer-id").val(customer.id);
+			  $("#customer-name").val(customer.customerName);
+			  $("#customer-email").val(customer.customerEmail);
+			  $("#customer-phone").val(customer.customerPhone);
+			  $("#customer-report").val(customer.customerReport);
+
+			  $('#see-customer-list').click();
+        };
+	 }
+
+	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {
 			"customer": {
    			"Editar": "editCustomer",
@@ -34,9 +50,8 @@ $( document ).ready(function() {
 	   	var row = document.createElement("tr");
    		var html = ["<tr>"];
 
-		html = html.concat([renderTD(values, 'id')]);
 		html = html.concat([renderTD(values, 'customerName')]);
-		html = html.concat([renderTD(values, 'customerEmail')]);
+		html = html.concat([renderTD(values, 'customerPhone')]);
 
    		html.push("<td class = 'action'>");
 	   	for (var action in actions[tableName]) {
@@ -48,16 +63,41 @@ $( document ).ready(function() {
    		table.appendChild(row);
 	}
 
-	function renderTD(obj, key){
+	renderTD = function (obj, key){
 		var result = [];
 		result.push("<td class='", key, "'>");
+		if(key === 'customerPhone') {
+			result.push("<a href='tel:" + obj[key] + "'>");
+		}
 		result.push(obj[key]);
+		if(key === 'customerPhone') {
+			result.push("</a>");
+		}
 		result.push("</td>")
 
 		return result.join("");
 	}
 
-	function addToCustomer(customerOBJ){
+	updateCustomer = function (id, customerOBJ){
+		customerOBJ.id = parseInt(id);
+		var request = db.transaction(["customer"], "readwrite")
+                .objectStore("customer")					
+					 .put(customerOBJ);
+                                 
+        request.onsuccess = function(event) {
+                alert("Paciente alterado com sucesso");
+				$("form:visible")[0].reset();
+				loadCustomers();
+        };
+         
+        request.onerror = function(event) {
+                alert("Ocorreu algum erro! ");       
+        }
+
+		console.log(customerOBJ);
+	}
+
+	addToCustomer = function (customerOBJ){
 
 		var request = db.transaction(["customer"], "readwrite")
                 .objectStore("customer")
@@ -76,7 +116,7 @@ $( document ).ready(function() {
 		console.log(customerOBJ);
 	}
    
-	function removeFromCustomer(itemId){
+	removeFromCustomer = function (itemId){
 		var request = db.transaction(["customer"], "readwrite")
                 .objectStore("customer")
                 .delete(itemId);
@@ -95,10 +135,18 @@ $( document ).ready(function() {
 
 		if (isValid) {
 			var customer = {};
-		     
+		   
 			customer.customerName = $("#customer-name").val();
 			customer.customerEmail = $("#customer-email").val();
-			addToCustomer(customer);
+			customer.customerPhone = $("#customer-phone").val();
+			customer.customerReport = $("#customer-report").val();
+
+			var id = $("#customer-id").val();
+			if(id != "" && id != 0) {
+				updateCustomer(id, customer);
+			} else {
+				addToCustomer(customer);
+			}
 		}
 	});
 

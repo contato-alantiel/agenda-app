@@ -32,11 +32,11 @@
       <div class="l-wrapper">
         <header class="header">
           <a class="header--logo" href="#0">
-            <img src="assets/img/logo.png" alt="Rodrigo Herman - Fisioterapeuta">
+            <img id="logo" src="assets/img/logo.png" alt="Rodrigo Herman - Fisioterapeuta">
             <p>Rodrigo Herman - Fisioterapeuta</p>
           </a>
 
-          <div class="header--nav-toggle">
+          <div class="header--nav-toggle hide">
             <span></span>
           </div>
         </header>
@@ -285,8 +285,7 @@
 						<table id="customer">
 							<thead>
 							  <tr>
-								<th>Id</th>
-									<th>Name</th>
+									<th>Nome</th>
 									<th>Email</th>
 								<th>Acões</th>
 							  </tr>
@@ -300,13 +299,10 @@
 						<input id="customer-id" type="hidden" value="0">
 						<div class="work-request--information">
 							<div class="information-name">
-								<input id="customer-name" type="text" spellcheck="false">
-
-								<label for="customer-name">Nome</label>
+								<input id="customer-name" type="text" spellcheck="false" placeholder="Nome">
 							</div> <!--.information-name-->
 						   <div class="information-email">
-						     <input id="customer-email" type="email" spellcheck="false">
-						     <label for="customer-email">Email</label>
+						     <input id="customer-email" type="email" spellcheck="false" placeholder="E-mail">
 						   </div> <!--.information-email-->
 
 							<div class="information-report">
@@ -326,8 +322,12 @@
 			</li>
         </ul>
       </div>
-	  <div id="dialog-scheduled" class='dialog' title="Aviso">
+	   <div id="dialog-scheduled" class='dialog' title="Aviso">
 		  <p>Hi!</p>
+		</div>
+
+		<div id="dialog-offline" class='dialog' title="Atenção">
+		  <p>Você deseja baixar os dados do servidor ou quer trabalhar offline?</p>
 		</div>
 
 		<div id="dialog-free" class='dialog' title="Confirmação de agendamento">
@@ -352,21 +352,23 @@
 
   </div>
   <ul class="outer-nav">
-    <li class="is-active">Início</li>
+    <li class="is-active">Sair</li>
     <li>Agenda</li>
     <li>Pacientes</li>
   </ul>
 </div>
 
 <script type="text/javascript" src="cordova.js"></script>
-<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
 
+<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
 <script type = "text/javascript" src = "assets/js/vendor/jquery-ui.min.js"></script>
 
-<script src="assets/js/functions-min.js"></script>
 <script src="assets/js/loader.js"></script>
 <script src="assets/js/customers.js"></script>
 <script src="assets/js/scheduler.js"></script>
+
+<script src="assets/js/vendor/hammer-2.0.8.min.js"></script>
+<script src="assets/js/functions.js"></script>
 </body>
 
 </html>
