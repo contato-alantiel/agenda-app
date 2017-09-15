@@ -133,8 +133,10 @@ $( document ).ready(function() {
 			 var i, path, len;
 			 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 				  path = mediaFiles[i].fullPath;
-				  alert(path);
-				  // do something interesting with the file
+				  var random = Math.floor(Math.random()*1000);
+				  var newImagePath = path + "?r=" + random;
+				  $(".information-images img").attr("src",newImagePath).removeClass("hide").height(100).width(100);
+				  alert(newImagePath);
 			 }
 		};
 
@@ -144,11 +146,10 @@ $( document ).ready(function() {
 		};
 
 		// start image capture
-		navigator.device.capture.captureImage(captureSuccess, captureError, {limit:2});
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit:1});
 	}
 
 	$("#take-picture").click(function (e) {
-		alert('tirando fotos');
 		captureImage();
 	});
 
