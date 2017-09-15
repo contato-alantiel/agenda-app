@@ -315,7 +315,8 @@
 							</div>
 
 							<div class="information-images">
-								<a id="take-picture">fotos</a>
+								<img src="" class="hide">
+								<a id="take-picture">adicionar foto</a>
 							</div>
 						   <input type="submit" value="Salvar" id="add-customer">
 						</div> <!--.work-request--information-->

@@ -971,8 +971,9 @@ a {
 /* line 78, modules/_work.sass */
 .work--lockup {
   position: relative;
+  overflow: auto;
 }
-/* line 81, modules/_work.sass */
+/* line 82, modules/_work.sass */
 .work--lockup .slider--next,
 .work--lockup .slider--prev {
   position: absolute;
@@ -986,61 +987,61 @@ a {
   border-radius: 50%;
   cursor: pointer;
 }
-/* line 94, modules/_work.sass */
+/* line 95, modules/_work.sass */
 .work--lockup .slider--next svg,
 .work--lockup .slider--prev svg {
   width: 20px;
   fill: #fff;
 }
-/* line 98, modules/_work.sass */
+/* line 99, modules/_work.sass */
 .work--lockup .slider--next {
   right: 0;
 }
-/* line 101, modules/_work.sass */
+/* line 102, modules/_work.sass */
 .work--lockup .slider--prev {
   left: 0;
 }
 
 @media (max-width: 900px) {
-  /* line 110, modules/_work.sass */
+  /* line 111, modules/_work.sass */
   .work--lockup .slider--next,
   .work--lockup .slider--prev {
     top: 130px;
   }
 }
 @media (max-width: 767px) {
-  /* line 120, modules/_work.sass */
+  /* line 121, modules/_work.sass */
   .work--lockup .slider--next,
   .work--lockup .slider--prev {
     top: 105px;
   }
 }
 @media (max-width: 600px) {
-  /* line 127, modules/_work.sass */
+  /* line 128, modules/_work.sass */
   .work {
     line-height: 1.1;
     min-height: 580px;
   }
-  /* line 131, modules/_work.sass */
+  /* line 132, modules/_work.sass */
   .work .period-schedule {
     line-height: 30px;
   }
-  /* line 134, modules/_work.sass */
+  /* line 135, modules/_work.sass */
   .work h2 {
     font-size: 23px;
   }
-  /* line 137, modules/_work.sass */
+  /* line 138, modules/_work.sass */
   .work .day-container {
     padding: 0 0;
     line-height: 0.8em;
   }
-  /* line 141, modules/_work.sass */
+  /* line 142, modules/_work.sass */
   .work .day-container p {
     line-height: 1em;
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  /* line 148, modules/_work.sass */
+  /* line 149, modules/_work.sass */
   .work--lockup .slider--next,
   .work--lockup .slider--prev {
     top: 0;
@@ -1189,22 +1190,26 @@ a {
   font-size: 30px;
   font-weight: 300;
 }
-/* line 118, modules/_hire.sass */
+/* line 117, modules/_hire.sass */
+.work-request--information #take-picture {
+  line-height: 30px;
+}
+/* line 120, modules/_hire.sass */
 .work-request--information .information-report {
   width: 100%;
   position: relative;
 }
-/* line 122, modules/_hire.sass */
+/* line 124, modules/_hire.sass */
 .work-request--information .information-report label {
   font-size: 22px;
 }
-/* line 125, modules/_hire.sass */
+/* line 127, modules/_hire.sass */
 .work-request--information .information-report textarea {
   width: 100%;
   margin-top: 35px;
   color: #666;
 }
-/* line 130, modules/_hire.sass */
+/* line 132, modules/_hire.sass */
 .work-request--information input[type="text"],
 .work-request--information input[type="email"],
 .work-request--information input[type="number"] {
@@ -1215,14 +1220,14 @@ a {
   border-bottom: 1px solid #fff;
   border-radius: 0;
 }
-/* line 140, modules/_hire.sass */
+/* line 142, modules/_hire.sass */
 .work-request--information input[type="text"]:focus,
 .work-request--information input[type="email"]:focus,
 .work-request--information input[type="number"]:focus {
   outline: none;
   background-color: #0c0c0c;
 }
-/* line 144, modules/_hire.sass */
+/* line 146, modules/_hire.sass */
 .work-request--information label {
   position: absolute;
   top: 0;
@@ -1230,7 +1235,7 @@ a {
   pointer-events: none;
   transition: top 0.2s ease-in-out, font-size 0.2s ease-in-out;
 }
-/* line 151, modules/_hire.sass */
+/* line 153, modules/_hire.sass */
 .work-request--information input:focus + label,
 .work-request--information input.has-value + label {
   top: -5px;
@@ -1238,12 +1243,12 @@ a {
 }
 
 @media (max-width: 767px) {
-  /* line 160, modules/_hire.sass */
+  /* line 162, modules/_hire.sass */
   .work-request--options {
     flex-direction: row;
     justify-content: space-around;
   }
-  /* line 164, modules/_hire.sass */
+  /* line 166, modules/_hire.sass */
   .work-request--options .options-a,
   .work-request--options .options-b {
     display: block;
@@ -1251,38 +1256,38 @@ a {
   }
 }
 @media (max-width: 600px) {
-  /* line 171, modules/_hire.sass */
+  /* line 173, modules/_hire.sass */
   .hire {
     min-height: 470px;
   }
 
-  /* line 176, modules/_hire.sass */
+  /* line 178, modules/_hire.sass */
   .work-request--options {
     margin: 20px 0;
   }
 }
 @media (max-width: 600px) and (max-width: 415px) {
-  /* line 176, modules/_hire.sass */
+  /* line 178, modules/_hire.sass */
   .work-request--options {
     justify-content: space-between;
   }
 }
 @media (max-width: 600px) {
-  /* line 182, modules/_hire.sass */
+  /* line 184, modules/_hire.sass */
   .work-request--options label {
     width: 150px;
     margin-bottom: 15px;
     font-size: 14px;
   }
-  /* line 191, modules/_hire.sass */
+  /* line 193, modules/_hire.sass */
   .work-request--options input[type="checkbox"]:checked + label svg {
     width: 12px;
   }
-  /* line 194, modules/_hire.sass */
+  /* line 196, modules/_hire.sass */
   .work-request--information {
     margin-bottom: 30px;
   }
-  /* line 197, modules/_hire.sass */
+  /* line 199, modules/_hire.sass */
   .work-request--information .information-name,
   .work-request--information .information-email,
   .work-request--information .information-phone {

@@ -4,12 +4,12 @@ var db;
 var restoreDB = true; // true/false - reset and import
 
 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-  window.setTimeout(function() {
+  /*window.setTimeout(function() {
 		 var e = document.createEvent('Events'); 
 		 e.initEvent("deviceready", true, false); 
 		 document.dispatchEvent(e);
   }, 50);
-  var cordova = {file:{}};
+  var cordova = {file:{}};*/
   var isWeb = true;
 }
 

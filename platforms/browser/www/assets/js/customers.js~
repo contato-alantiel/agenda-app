@@ -35,7 +35,12 @@ $( document ).ready(function() {
 			  $("#customer-phone").val(customer.customerPhone);
 			  $("#customer-report").val(customer.customerReport);
 
-			  $('#see-customer-list').click();
+			  $(".information-images img").remove();
+			  customer.customerImages.forEach(function(item) {
+				 $(".information-images").prepend($('<img>',{src: item}).height(80))
+			  });
+
+			  $('#see-customer-list').addClass('edit').click();
         };
 	 }
 
@@ -66,7 +71,13 @@ $( document ).ready(function() {
 	renderTD = function (obj, key){
 		var result = [];
 		result.push("<td class='", key, "'>");
+		if(key === 'customerPhone') {
+			result.push("<a href='tel:" + obj[key] + "'>");
+		}
 		result.push(obj[key]);
+		if(key === 'customerPhone') {
+			result.push("</a>");
+		}
 		result.push("</td>")
 
 		return result.join("");
@@ -81,6 +92,7 @@ $( document ).ready(function() {
         request.onsuccess = function(event) {
                 alert("Paciente alterado com sucesso");
 				$("form:visible")[0].reset();
+				$(".information-images img").remove();
 				loadCustomers();
         };
          
@@ -100,6 +112,7 @@ $( document ).ready(function() {
         request.onsuccess = function(event) {
                 alert("Paciente adicionado com sucesso");
 				$("form:visible")[0].reset();
+				$(".information-images img").remove();
 				loadCustomers();
         };
          
@@ -120,6 +133,29 @@ $( document ).ready(function() {
         };
 	}
 
+	captureImage = function() {
+		var captureSuccess = function(mediaFiles) {
+			 var i, path, len;
+			 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+				  path = mediaFiles[i].fullPath;
+				  var random = Math.floor(Math.random()*1000);
+				  var uncachedPath = path + "?r=" + random;
+				  $(".information-images").prepend($('<img>',{src:uncachedPath}).height(80));
+			 }
+		};
+
+		var captureError = function(error) {
+			 navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+		};
+
+		// start image capture
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit:1});
+	}
+
+	$("#take-picture").click(function (e) {
+		captureImage();
+	});
+
 	/*Add Customer*/
 	$('#add-customer').click(function (e) {
 		e.stopPropagation();
@@ -134,6 +170,12 @@ $( document ).ready(function() {
 			customer.customerEmail = $("#customer-email").val();
 			customer.customerPhone = $("#customer-phone").val();
 			customer.customerReport = $("#customer-report").val();
+
+			customer.customerImages = [];
+			$(".information-images img").each(function(item) {
+				var objThis = $(this);
+				customer.customerImages.push(objThis.attr('src'));
+			});
 
 			var id = $("#customer-id").val();
 			if(id != "" && id != 0) {
@@ -154,6 +196,13 @@ $( document ).ready(function() {
 		  objCustomerList.parent().find("form").toggleClass("hide");
 		  objCustomerList.toggleClass("hide");
 		  objThis.parent().find("span").toggleClass("hide");
+
+		  if(!$('#see-customer-list').is('.edit')) {
+			  $("form:visible")[0].reset();
+			  $(".information-images img").remove();
+		  }
+
+		  $('#see-customer-list').removeClass('edit');
 	});
   }); //cordova ready
 }); //jquery ready

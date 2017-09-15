@@ -82,7 +82,7 @@ $( document ).ready(function() {
 		}
 
 		cordova.file.readJSONFromFile = function(params, callback) {
-		  if(isChrome) {
+		  if(isWeb) {
 			  callback.success([]);
 		  } else {
 			  window.resolveLocalFileSystemURL(params.path, function(dir) {
