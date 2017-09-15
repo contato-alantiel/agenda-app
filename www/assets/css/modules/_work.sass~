@@ -77,7 +77,7 @@ a
 
   &--lockup
     position: relative
-    overflow: auto;
+    overflow: auto
 
     .slider--next,
     .slider--prev

@@ -1020,28 +1020,27 @@ a {
   /* line 128, modules/_work.sass */
   .work {
     line-height: 1.1;
-    min-height: 580px;
   }
-  /* line 132, modules/_work.sass */
+  /* line 131, modules/_work.sass */
   .work .period-schedule {
     line-height: 30px;
   }
-  /* line 135, modules/_work.sass */
+  /* line 134, modules/_work.sass */
   .work h2 {
     font-size: 23px;
   }
-  /* line 138, modules/_work.sass */
+  /* line 137, modules/_work.sass */
   .work .day-container {
     padding: 0 0;
     line-height: 0.8em;
   }
-  /* line 142, modules/_work.sass */
+  /* line 141, modules/_work.sass */
   .work .day-container p {
     line-height: 1em;
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  /* line 149, modules/_work.sass */
+  /* line 148, modules/_work.sass */
   .work--lockup .slider--next,
   .work--lockup .slider--prev {
     top: 0;
