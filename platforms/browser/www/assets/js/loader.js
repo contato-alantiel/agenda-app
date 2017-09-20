@@ -1,7 +1,7 @@
 var db;
 
 //TODO validar sempre se eh necessario resetar
-var restoreDB = true; // true/false - reset and import
+var restoreDB = false; // true/false - reset and import
 
 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
   /*window.setTimeout(function() {
@@ -52,6 +52,7 @@ $( document ).ready(function() {
 				var scheduledTimeStore = db.createObjectStore("scheduledTime", {keyPath: "id", autoIncrement: true});
 				scheduledTimeStore.createIndex("date", "date", { unique: false });
 				scheduledTimeStore.createIndex("time", "time", { unique: false });
+				scheduledTimeStore.createIndex("customer", "customer", { unique: false });
 
 				var freeTimeStore = db.createObjectStore("freeTime", {keyPath: "id", autoIncrement: true});
 				freeTimeStore.createIndex("date", "date", { unique: false });
