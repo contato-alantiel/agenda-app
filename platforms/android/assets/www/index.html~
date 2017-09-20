@@ -279,14 +279,14 @@
           </li>
           <li class="l-section section">
 				<div class="hire">
-					<h2>Cadastro de pacientes</h2>
 
 					<div id="customer-list" class="hide">
+						<h2>Pacientes cadastrados</h2>
 						<table id="customer">
 							<thead>
 							  <tr>
 									<th>Nome</th>
-									<th>Email</th>
+									<th>Telefone</th>
 								<th>Acões</th>
 							  </tr>
 							</thead>
@@ -295,7 +295,16 @@
 						</table>
 					</div>
 
+					<div id="customer-scheduler" class="hide">
+						<h2>Agenda do paciente <span></span></h2>
+						<ul id="customer-scheduler-content"></ul>
+						<p id="session-cost">Valor da sessão: <span></span> reais</p>
+						<p id="customer-total">Total nesse mês: <span></span> reais</p>
+					</div>
+
 					<form class="work-request">
+						<h2>Cadastro de pacientes</h2>
+
 						<input id="customer-id" type="hidden" value="0">
 						<div class="work-request--information">
 							<div class="information-name">
@@ -305,16 +314,28 @@
 						     <input id="customer-email" type="email" spellcheck="false" placeholder="E-mail">
 						   </div> <!--.information-email-->
 
+							<div class="information-phone">
+						     <input id="customer-phone" type="number" spellcheck="false" placeholder="Telefone">
+						   </div> <!--.information-phone-->
+
+							<div class="information-cost">
+								<input id="customer-cost" type="number" spellcheck="false" placeholder="Valor da consulta">
+							</div><!--.information-cost-->
+
 							<div class="information-report">
 								<textarea id="customer-report" spellcheck="false"></textarea>
 								<label for="customer-report">Laudo</label>
+							</div>
+
+							<div class="information-images">
+								<a id="take-picture">adicionar foto</a>
 							</div>
 						   <input type="submit" value="Salvar" id="add-customer">
 						</div> <!--.work-request--information-->
 
 					</form>
 					<p>
-					  <a id="see-customer-list" href="#"><span>ver pacientes cadastrados</span><span class="hide">ver cadastro de pacientes</span></a>
+					  <a id="toggle-customer-view" class='list' href="#"><span>ver pacientes cadastrados</span><span class="hide">ver cadastro de pacientes</span></a>
 					</p>
 				</div> <!--.hire-->
 

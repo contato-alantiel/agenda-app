@@ -24,7 +24,7 @@ $( document ).ready(function() {
 	 }
 
 	 editCustomer = function(id){
-		var request = db.transaction(["customer"], "readwrite")
+		  var request = db.transaction(["customer"], "readwrite")
                 .objectStore("customer")
                 .get(id);
         request.onsuccess = function(event) {
@@ -34,16 +34,82 @@ $( document ).ready(function() {
 			  $("#customer-email").val(customer.customerEmail);
 			  $("#customer-phone").val(customer.customerPhone);
 			  $("#customer-report").val(customer.customerReport);
+			  $("#customer-cost").val(customer.customerCost);
 
-			  $('#see-customer-list').click();
+			  $(".information-images img").remove();
+			  customer.customerImages.forEach(function(item) {
+				 $(".information-images").prepend($('<img>',{src: item}).height(80))
+			  });
+
+			  $('#toggle-customer-view span:eq(0)').click();
         };
+	 }
+
+	 seeCustomerSchedule = function (id) {
+		  var request = db.transaction(["customer"], "readonly")
+                .objectStore("customer")
+                .get(id);
+        request.onsuccess = function(event) {
+			  var customer = request.result;
+			  customerName = customer.customerName;
+			  customerCost = customer.customerCost;
+			  $('#customer-scheduler h2 span').html(customerName);
+		     $('#session-cost span').html(customerCost + ' reais');
+
+			  var objectStore = db.transaction(["scheduledTime"], "readonly")
+			          .objectStore("scheduledTime");
+
+			  lastDayOfMonth = function(date) {
+				  var month = date.getMonth();
+				  var year = date.getYear();
+
+				  if( month == 1 ) { //feb
+						return d.getYear() % 4 === 0 ? 29 : 28;
+				  } else {
+						return (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) ? 31 : 30;
+				  }
+			  }
+
+			  var d = new Date();
+			  var year = d.getFullYear();
+			  var month = (d.getMonth()+1).toString().padStart(2, "0");
+
+			  var dateStart = year + "" + month + "0100"; // first hour of month
+			  var dateEnd = year + "" + month + "" + lastDayOfMonth(d) + "23"; // last hour of month
+
+			  $('#toggle-customer-view').removeClass('register').addClass('scheduler').find('span:eq(0)').click();
+
+			  $('#customer-scheduler-content').html('');
+			  $('#customer-total span').html(0);
+
+			  objectStore.index('date').openCursor(IDBKeyRange.bound(dateStart, dateEnd), 'next').onsuccess = function(event) {
+				 var cursor = event.target.result;
+				 if (cursor) {
+					if(cursor.value.customer === id) {
+						console.log(cursor.key, cursor.value);
+						var date = cursor.value.date;
+						var time = cursor.value.time;
+						$('#customer-scheduler-content')
+						.append('<li>')
+						.append(date.substring(6,8) + '/' + date.substring(4,6) +'/'+date.substring(0,4)+ ' - ' + time + 'hrs')
+						.append('</li>');
+				   	$('#customer-total span').html(parseInt($('#customer-total span').html()) + parseInt(customerCost));
+					}
+	
+
+					cursor.continue();
+				 }
+			  }; 
+
+
+        }; // customer success
 	 }
 
 	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {
 			"customer": {
    			"Editar": "editCustomer",
-   			"Ver agenda": "seeCustomerSchedule"
+   			"Agenda mensal": "seeCustomerSchedule"
 		}
 		}
    		var table = document.getElementById(tableName).getElementsByTagName("tbody")[0];
@@ -87,6 +153,7 @@ $( document ).ready(function() {
         request.onsuccess = function(event) {
                 alert("Paciente alterado com sucesso");
 				$("form:visible")[0].reset();
+				$(".information-images img").remove();
 				loadCustomers();
         };
          
@@ -106,6 +173,7 @@ $( document ).ready(function() {
         request.onsuccess = function(event) {
                 alert("Paciente adicionado com sucesso");
 				$("form:visible")[0].reset();
+				$(".information-images img").remove();
 				loadCustomers();
         };
          
@@ -126,6 +194,29 @@ $( document ).ready(function() {
         };
 	}
 
+	captureImage = function() {
+		var captureSuccess = function(mediaFiles) {
+			 var i, path, len;
+			 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+				  path = mediaFiles[i].fullPath;
+				  var random = Math.floor(Math.random()*1000);
+				  var uncachedPath = path + "?r=" + random;
+				  $(".information-images").prepend($('<img>',{src:uncachedPath}).height(80));
+			 }
+		};
+
+		var captureError = function(error) {
+			 navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+		};
+
+		// start image capture
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit:1});
+	}
+
+	$("#take-picture").click(function (e) {
+		captureImage();
+	});
+
 	/*Add Customer*/
 	$('#add-customer').click(function (e) {
 		e.stopPropagation();
@@ -140,6 +231,13 @@ $( document ).ready(function() {
 			customer.customerEmail = $("#customer-email").val();
 			customer.customerPhone = $("#customer-phone").val();
 			customer.customerReport = $("#customer-report").val();
+			customer.customerCost = $("#customer-cost").val();
+
+			customer.customerImages = [];
+			$(".information-images img").each(function(item) {
+				var objThis = $(this);
+				customer.customerImages.push(objThis.attr('src'));
+			});
 
 			var id = $("#customer-id").val();
 			if(id != "" && id != 0) {
@@ -151,15 +249,42 @@ $( document ).ready(function() {
 	});
 
 	/*See customer list/form*/
-	$('#see-customer-list').click(function (e) {
+	$('#toggle-customer-view').click(function (e) {
 		  e.stopPropagation();
 		  e.preventDefault();
 		
-		  var objThis = $(e.target);
+		  var objThis = $(e.target).parents('#toggle-customer-view');
 		  var objCustomerList = $("#customer-list");
-		  objCustomerList.parent().find("form").toggleClass("hide");
-		  objCustomerList.toggleClass("hide");
-		  objThis.parent().find("span").toggleClass("hide");
+		  var objCustomerScheduler = $("#customer-scheduler");
+		  var objForm = objCustomerList.parent().find("form");
+
+
+		  objThis.find("span").toggleClass("hide");
+
+		  if(objThis.is('.list')) {
+			  if($("form:visible").length > 0)
+			  		$("form:visible")[0].reset();
+
+			  $(".information-images img").remove();
+			  objThis.removeClass('list').addClass('register');
+
+			  objCustomerList.removeClass("hide");
+			  objCustomerScheduler.addClass("hide");
+			  objForm.addClass("hide");
+		  } else if(objThis.is('.register')) {
+			  objThis.removeClass('register').addClass('list');
+
+			  objCustomerList.addClass("hide");
+			  objCustomerScheduler.addClass("hide");
+			  objForm.removeClass("hide");
+		  } else if(objThis.is('.scheduler')) {
+			  objThis.removeClass('scheduler').addClass('list');
+
+			  objCustomerList.addClass("hide");
+			  objCustomerScheduler.removeClass("hide");
+			  objForm.addClass("hide");
+		  }
+
 	});
   }); //cordova ready
 }); //jquery ready

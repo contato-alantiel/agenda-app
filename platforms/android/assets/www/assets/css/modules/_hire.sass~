@@ -107,13 +107,17 @@
 
     .information-name,
     .information-email,
-    .information-phone
+    .information-phone,
+    .information-cost
       position: relative
       width: 75%
       height: 50px
       font-size: 30px
       font-weight: 300
 
+    #take-picture
+      line-height: 30px
+      cursor: pointer
 
     .information-report
       width: 100%
@@ -128,7 +132,8 @@
         color: #666
 
     input[type="text"],
-    input[type="email"]
+    input[type="email"],
+    input[type="number"]
       width: 100%
       padding: 0 0 5px 0
       background-color: transparent
@@ -195,6 +200,7 @@
 
       .information-name,
       .information-email,
-      .information-phone
+      .information-phone,
+      .information-cost
         height: 40px
         font-size: 24px

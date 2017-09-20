@@ -105,6 +105,29 @@ $( document ).ready(function() {
         }; // customer success
 	 }
 
+	 shareInvoice = function() {
+		var options = {
+		  message: 'compartilhando essa mensagem pelo aplicativo... PAGUE O ALUGUEL :p', 
+		  subject: 'assunto - PAGUE O ALUGUEL', 
+		  chooserTitle: 'Escolha a forma de compartilhamento' // Android only, you can override the default share sheet title
+		}
+
+		var onSuccess = function(result) {
+		  alert("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+		  console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+		}
+
+		var onError = function(msg) {
+		  alert("Sharing failed with message: " + msg);
+		}
+
+		window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+	 }
+
+    $(".shareCustomerInvoice").click(function (e) {
+		 shareInvoice();
+	 });
+
 	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {
 			"customer": {

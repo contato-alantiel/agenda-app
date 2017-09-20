@@ -4,12 +4,12 @@ var db;
 var restoreDB = true; // true/false - reset and import
 
 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
-  window.setTimeout(function() {
+  /*window.setTimeout(function() {
 		 var e = document.createEvent('Events'); 
 		 e.initEvent("deviceready", true, false); 
 		 document.dispatchEvent(e);
   }, 50);
-  var cordova = {file:{}};
+  var cordova = {file:{}};*/
   var isWeb = true;
 }
 
@@ -52,6 +52,7 @@ $( document ).ready(function() {
 				var scheduledTimeStore = db.createObjectStore("scheduledTime", {keyPath: "id", autoIncrement: true});
 				scheduledTimeStore.createIndex("date", "date", { unique: false });
 				scheduledTimeStore.createIndex("time", "time", { unique: false });
+				scheduledTimeStore.createIndex("customer", "customer", { unique: false });
 
 				var freeTimeStore = db.createObjectStore("freeTime", {keyPath: "id", autoIncrement: true});
 				freeTimeStore.createIndex("date", "date", { unique: false });
@@ -82,7 +83,7 @@ $( document ).ready(function() {
 		}
 
 		cordova.file.readJSONFromFile = function(params, callback) {
-		  if(isChrome) {
+		  if(isWeb) {
 			  callback.success([]);
 		  } else {
 			  window.resolveLocalFileSystemURL(params.path, function(dir) {

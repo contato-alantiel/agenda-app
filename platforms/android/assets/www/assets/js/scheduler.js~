@@ -26,7 +26,13 @@ $( document ).ready(function() {
 			}
 
 			function loadDaySchedule(prefix) {
-				$(".schedule-day .period-schedule").data("prefix", prefix).text("Data: " + prefix.slice(6, 8) + "/" + prefix.slice(4, 6) + "/" + prefix.slice(0,4));
+				var utcDate = new Date(prefix.slice(0,4), parseInt(prefix.slice(4, 6))-1, prefix.slice(6, 8)).getUTCDay();
+				var txtWeekdays = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
+
+				console.log(utcDate, new Date(prefix.slice(0,4), parseInt(prefix.slice(4, 6))-1, prefix.slice(6, 8)), prefix.slice(0,4), prefix.slice(4, 6), prefix.slice(6, 8));
+
+
+				$(".schedule-day .period-schedule").data("prefix", prefix).text("Data: " + prefix.slice(6, 8) + "/" + prefix.slice(4, 6) + "/" + prefix.slice(0,4) + '(' + txtWeekdays[utcDate] + ')');
 				loadFromDBToDailyTable("scheduledTime", prefix);
 				loadFromDBToDailyTable("freeTime", prefix);
 				loadFromDBToDailyTable("blockedTime", prefix);
@@ -128,6 +134,7 @@ $( document ).ready(function() {
 				$(".scheduledTime.time").unbind("click").click(
 					function(e){
 						var objThis = $(e.target);
+						console.log(objThis);
 
 						var transaction = db.transaction(["customer"]);
 						var objectStore = transaction.objectStore("customer");
@@ -139,7 +146,12 @@ $( document ).ready(function() {
 						  if(request.result) {
 								$( "#dialog-scheduled" ).attr("title", "Agendamento - horário: " + objThis.text());
 								$( "#dialog-scheduled" ).find("p").html("Paciente: " + request.result.customerName + "<br>" + "Email: " + request.result.customerEmail);
-								$( "#dialog-scheduled" ).dialog();
+
+								$( "#dialog-scheduled" ).dialog({
+									close: function() {
+										$( "#dialog-scheduled" ).dialog('destroy');
+									}
+								});
 						  } else {
 								  alert("Erro - objeto inexistente!"); 
 						  }
@@ -356,7 +368,7 @@ $( document ).ready(function() {
 
 					$( "<a>" )
 					  .attr( "tabIndex", -1 )
-					  .attr( "title", "Todos" )
+					  .attr( "title", "" )
 					  .tooltip()
 					  .appendTo( this.wrapper )
 					  .button({

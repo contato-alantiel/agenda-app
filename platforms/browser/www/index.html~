@@ -298,8 +298,10 @@
 					<div id="customer-scheduler" class="hide">
 						<h2>Agenda do paciente <span></span></h2>
 						<ul id="customer-scheduler-content"></ul>
-						<p id="session-cost">Valor da sessão: <span></span> reais</p>
-						<p id="customer-total">Total nesse mês: <span></span> reais</p>
+						<span id="session-cost">valor da sessão: <span></span> reais</span>
+						<span id="customer-total"> | total nesse mês: <span></span> reais</span>
+
+						<p><a href="#" class="shareCustomerInvoice"></a></p>
 					</div>
 
 					<form class="work-request">
