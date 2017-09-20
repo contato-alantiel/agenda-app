@@ -106,7 +106,8 @@ $( document ).ready(function() {
 	 }
 
 	 shareInvoice = function() {
-		window.plugins.socialsharing.shareViaWhatsApp('teste envio pelo aplicativo - pague o aluguel :p', null /* img */, null /* url */, function() {alert('sucesso')}, function(errormsg){alert(errormsg)})
+	   var d = new Date();
+		window.plugins.socialsharing.shareViaWhatsApp('Teste envio pelo aplicativo\nBom dia!!!\n\nSegue as sessões realizadoas em ', null /* img */, null /* url */, function() {console.log('sucesso')}, function(errormsg){alert('Ocorreu um erro ao tentar compartilhar mensagem' + errormsg)})
 	 }
 
     $(".shareCustomerInvoice").click(function (e) {

@@ -107,7 +107,7 @@ $( document ).ready(function() {
 				          .delete(itemId);
 				  request.onsuccess = function(event) {
 				  
-				  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").split("/");
+				  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").replace(/ \(.*\)/, "").split("/");
 				  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd
 				  loadFromDBToDailyTable(tableName, prefixNow);
 				  };		
@@ -131,7 +131,6 @@ $( document ).ready(function() {
 				$(".scheduledTime.time").unbind("click").click(
 					function(e){
 						var objThis = $(e.target);
-						console.log(objThis);
 
 						var transaction = db.transaction(["customer"]);
 						var objectStore = transaction.objectStore("customer");
@@ -172,11 +171,10 @@ $( document ).ready(function() {
 						  buttons: {
 							"Agendar": function() {
 							  var toSave = {'date': ""+objThis.data("date"), 'time': objThis.data("time"), 'customer': parseInt($("#combobox").val())};
-							  console.log(toSave);
 							  addToScheduledTime(toSave);
 							  removeFromDB("freeTime", objThis.data("id"));
-							  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").split("/");
-							  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd					  
+							  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").replace(/ \(.*\)/, "").split("/");
+							  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd					
 							  loadFromDBToDailyTable("scheduledTime", prefixNow);
 							  $(".custom-combobox-input").val("");
 							  $( this ).dialog( "close" );
