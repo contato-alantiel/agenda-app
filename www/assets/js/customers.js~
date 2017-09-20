@@ -105,7 +105,7 @@ $( document ).ready(function() {
         }; // customer success
 	 }
 
-	shareInvoice = function() {
+	 shareInvoice = function() {
 		var options = {
 		  message: 'compartilhando essa mensagem pelo aplicativo... PAGUE O ALUGUEL :p', 
 		  subject: 'assunto - PAGUE O ALUGUEL', 
@@ -122,7 +122,11 @@ $( document ).ready(function() {
 		}
 
 		window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
-	}
+	 }
+
+    $(".shareCustomerInvoice").click(function (e) {
+		 shareInvoice();
+	 });
 
 	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {
