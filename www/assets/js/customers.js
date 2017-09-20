@@ -107,7 +107,19 @@ $( document ).ready(function() {
 
 	 shareInvoice = function() {
 	   var d = new Date();
-		window.plugins.socialsharing.shareViaWhatsApp('Teste envio pelo aplicativo\nBom dia!!!\n\nSegue as sessões realizadoas em ', null /* img */, null /* url */, function() {console.log('sucesso')}, function(errormsg){alert('Ocorreu um erro ao tentar compartilhar mensagem' + errormsg)})
+		var txtMonths = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+		var month = txtMonths[d.getMonth()];
+		var nextMonthFirstDay = new Date();
+		nextMonthFirstDay.setMonth(d.getMonth()+1);
+		nextMonthFirstDay.setDate(1);
+		var paymentDay = nextMonthFirstDay.getUTCDay() == 0 ? '06' : (nextMonthFirstDay.getUTCDay() == 1) ? '05' : '07';
+
+		var sessoes = 2;
+		var total = 600;
+
+		var txtMessage = '--Teste envio pelo aplicativo--\n\n\nBom dia!!!\n\nSegue as sessões realizadas em '+ month +' de '+ d.getFullYear() +'! Por gentileza, realizar o pagamento até o dia ' + paymentDay + ' de ' + txtMonths[nextMonthFirstDay.getMonth()] + ' e, caso transferência ou depósito, enviar o comprovante!!\n\nItaú\nAg: 4285\nCC: 1485-2\nCPF: 306.572.658-02\n\nSessões realizadas: '+sessoes+'\nValor total: R$ '+total+',00';
+
+		window.plugins.socialsharing.shareViaWhatsApp(txtMessage , null /* img */, null /* url */, function() {console.log('sucesso')}, function(errormsg){alert('Ocorreu um erro ao tentar compartilhar mensagem' + errormsg)})
 	 }
 
     $(".shareCustomerInvoice").click(function (e) {
