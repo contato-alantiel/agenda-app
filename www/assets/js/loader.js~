@@ -1,7 +1,7 @@
 var db;
 
 //TODO validar sempre se eh necessario resetar
-var restoreDB = true; // true/false - reset and import
+var restoreDB = false; // true/false - reset and import
 
 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
   /*window.setTimeout(function() {
