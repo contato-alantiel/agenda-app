@@ -16,36 +16,30 @@ $( document ).ready(function() {
 		}, 5000);
 	}
 
-	getFromServer = function() {
-	   syncDownload(false);
+	syncDownload = function(offline) {
+		uploadCustomer(offline);
+		uploadBlockedTime(offline);
+		uploadScheduledTime(offline);
 	}
 
    $("#get-from-server").click(function (e) {
-		 getFromServer();
+		 syncDownload(false);
 	});
 
    sendToServer = function() {
-	   alert('send to server');
+	    syncDownload(false);
 	}
 
    $("#send-to-server").click(function (e) {
 		 sendToServer();
 	});
 
-	getFromLocal = function() {
-	  	 syncDownload(true);
-	}
-
    $("#get-from-local").click(function (e) {
-		 getFromLocal();
+		 syncDownload(true);
 	});
 
-   sendToLocal = function() {
-	   alert('send to local');
-	}
-
    $("#send-to-local").click(function (e) {
-		 sendToLocal();
+		 syncDownload(true);
 	});
 
 	

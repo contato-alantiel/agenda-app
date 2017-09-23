@@ -120,7 +120,7 @@ $( document ).ready(function() {
 			 });
 		}
 
-		backupDatabase = function(data, database) {
+		backupDatabase = function(data, database, offline = true) {
 			cordova.file.writeTextToFile({
 				 text:  JSON.stringify(data),
 				 path: cordova.file.externalDataDirectory,
@@ -129,8 +129,11 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(file) {
-					alert('Backup concluido: ' + file.nativeURL);
-					uploadTest(file.nativeURL);
+					if(offline) {
+						alert('Backup concluido: ' + file.nativeURL);
+					} else {
+						uploadTest(file.nativeURL);
+					}
 				 },
 				 error: function(error) {
 					alert('Erro no processo de backup: ' + error)
@@ -148,11 +151,27 @@ $( document ).ready(function() {
 			}
 		}
 
-		uploadBlockedTime = function() {
-			//TODO ler dados do indexeddb
-			var toSave = {"blockedTimes": [	{"date": "2017091212", "time": "12-13","reason": "Almoço + levando cachorro para passear" }	]};
+		uploadCustomer = function(offline = false) {
+			//TODO ler dados do indexeddb e salvar			
+		}
 
-			uploadDatabase(toSave, "blockedTimes", true);			
+		uploadBlockedTime = function(offline = false) {
+			var items = [];
+			var objectStore = db.transaction(tableName).objectStore(tableName);
+			  objectStore.openCursor().onsuccess = function(event) {
+				 var cursor = event.target.result;
+				 if (cursor) {
+					items.push(cursor.value);
+					cursor.continue();
+				 }
+			}; 
+			var toSave = {"blockedTimes": items };
+
+			backupDatabase(toSave, "blockedTimes", offline);
+		}
+
+		uploadScheduledTime = function(offline = false) {
+			//TODO ler dados do indexeddb e salvar
 		}
 
 		uploadTest = function (imageURI) {
@@ -161,12 +180,12 @@ $( document ).ready(function() {
          options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
          options.mimeType="text/plain";
          options.chunkedMode = false;
+			options.headers = {
+				Connection: "close"
+			};
 
          var ft = new FileTransfer();
          ft.upload(imageURI, "http://posttestserver.com/post.php?dir=example", function(r) {
-			   console.log("Code = " + r.responseCode);
-			   console.log("Response = " + r.response);
-			   console.log("Sent = " + r.bytesSent);
 			   alert(r.response);
 			}, function(error) {
 				alert("An error has occurred: Code = " + error.code);
@@ -199,7 +218,6 @@ $( document ).ready(function() {
 		}
 
 		loadScheduledTimeFromBackup = function(db, offline = false) {
-			alert('loadScheduledTimeFromBackup offline: '+ offline);
 			loadDatabase('scheduledTimes', function(scheduledTimes) {
 				var scheduledTimeStore = db.transaction(["scheduledTime"], "readwrite")
 				    .objectStore("scheduledTime");

@@ -16,28 +16,26 @@ $( document ).ready(function() {
 		}, 5000);
 	}
 
+	syncDownload = function(offline) {
+		uploadCustomer(offline);
+		uploadBlockedTime(offline);
+		uploadScheduledTime(offline);
+	}
+
    $("#get-from-server").click(function (e) {
 		 syncDownload(false);
 	});
 
-   sendToServer = function() {
-	   alert('TODO send to server');
-	}
-
    $("#send-to-server").click(function (e) {
-		 sendToServer();
+		 syncDownload(false);
 	});
 
    $("#get-from-local").click(function (e) {
 		 syncDownload(true);
 	});
 
-   sendToLocal = function() {
-	   uploadBlockedTime();
-	}
-
    $("#send-to-local").click(function (e) {
-		 sendToLocal();
+		 syncDownload(true);
 	});
 
 	
