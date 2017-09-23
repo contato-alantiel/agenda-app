@@ -157,17 +157,24 @@ $( document ).ready(function() {
 
 		uploadBlockedTime = function(offline = false) {
 			var items = [];
-			var objectStore = db.transaction(tableName).objectStore(tableName);
-			  objectStore.openCursor().onsuccess = function(event) {
+			var transaction = db.transaction("blockedTime");
+			var objectStore = transaction.objectStore("blockedTime");
+			objectStore.openCursor().onsuccess = function(event) {
 				 var cursor = event.target.result;
 				 if (cursor) {
+					console.log(cursor, cursor.value);
 					items.push(cursor.value);
 					cursor.continue();
 				 }
 			}; 
 			var toSave = {"blockedTimes": items };
 
-			backupDatabase(toSave, "blockedTimes", offline);
+			transaction.oncomplete = function(evt) {  
+				console.log(toSave);
+				console.log(items);
+			};
+
+			//backupDatabase(toSave, "blockedTimes", offline);
 		}
 
 		uploadScheduledTime = function(offline = false) {
