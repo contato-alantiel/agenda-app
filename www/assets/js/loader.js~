@@ -155,10 +155,10 @@ $( document ).ready(function() {
 			//TODO ler dados do indexeddb e salvar			
 		}
 
-		uploadBlockedTime = function(offline = false) {
+		readAndUploadDB = function(database, offline = false) {
 			var items = [];
-			var transaction = db.transaction("blockedTime");
-			var objectStore = transaction.objectStore("blockedTime");
+			var transaction = db.transaction(database);
+			var objectStore = transaction.objectStore(database);
 			objectStore.openCursor().onsuccess = function(event) {
 				 var cursor = event.target.result;
 				 if (cursor) {
@@ -168,10 +168,10 @@ $( document ).ready(function() {
 				 }
 			}; 
 
-			var toSave = {"blockedTimes": items };
+			var toSave = {database: items };
 
 			transaction.oncomplete = function(evt) {  
-				backupDatabase(toSave, "blockedTimes", offline);
+				backupDatabase(toSave, database, offline);
 			};
 
 		}

@@ -151,10 +151,6 @@ $( document ).ready(function() {
 			}
 		}
 
-		uploadCustomer = function(offline = false) {
-			//TODO ler dados do indexeddb e salvar			
-		}
-
 		readAndUploadDB = function(database, offline = false) {
 			var items = [];
 			var transaction = db.transaction(database);
@@ -174,10 +170,6 @@ $( document ).ready(function() {
 				backupDatabase(toSave, database, offline);
 			};
 
-		}
-
-		uploadScheduledTime = function(offline = false) {
-			//TODO ler dados do indexeddb e salvar
 		}
 
 		uploadTest = function (imageURI) {
