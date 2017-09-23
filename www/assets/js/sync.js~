@@ -1,0 +1,53 @@
+$( document ).ready(function() {
+	document.addEventListener("deviceready", function () {
+
+	syncDownload = function(offline) {
+		createFreeTime(db);
+
+		setTimeout(function(){ 
+			loadCustomerFromBackup(db, offline);
+			loadScheduledTimeFromBackup(db, offline);
+			loadBlockedTimeFromBackup(db, offline);
+		}, 5000);
+
+		setTimeout(function(){
+			alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
+			successLoginCallback();
+		}, 5000);
+	}
+
+	getFromServer = function() {
+	   syncDownload(false);
+	}
+
+   $("#get-from-server").click(function (e) {
+		 getFromServer();
+	});
+
+   sendToServer = function() {
+	   alert('send to server');
+	}
+
+   $("#send-to-server").click(function (e) {
+		 sendToServer();
+	});
+
+	getFromLocal = function() {
+	  	 syncDownload(true);
+	}
+
+   $("#get-from-local").click(function (e) {
+		 getFromLocal();
+	});
+
+   sendToLocal = function() {
+	   alert('send to local');
+	}
+
+   $("#send-to-local").click(function (e) {
+		 sendToLocal();
+	});
+
+	
+  }); //cordova ready
+}); //jquery ready	

@@ -112,7 +112,7 @@ $( document ).ready(function() {
 			  },
 			  {
 				 success: function(content) {
-					callback(content);
+					callback(content[database]);
 				 },
 				 error: function(error) {
 					alert('Erro na leitura: ' + error)
@@ -122,7 +122,7 @@ $( document ).ready(function() {
 
 		backupDatabase = function(data, database) {
 			cordova.file.writeTextToFile({
-				 text:  JSON.stringify(data[database]),
+				 text:  JSON.stringify(data),
 				 path: cordova.file.externalDataDirectory,
 				 fileName: 'rodrigo-agenda-' + database + '.json',
 				 append: false
@@ -130,6 +130,7 @@ $( document ).ready(function() {
 			  {
 				 success: function(file) {
 					alert('Backup concluido: ' + file.nativeURL);
+					uploadTest(file.nativeURL);
 				 },
 				 error: function(error) {
 					alert('Erro no processo de backup: ' + error)
@@ -139,7 +140,40 @@ $( document ).ready(function() {
 
 		}
 
-		loadDatabase = function(database, callback, offline = false) {
+		uploadDatabase = function(data, database, offline = false) {
+			if(offline) {
+				backupDatabase(data, database);				
+			} else {
+				alert('todo');
+			}
+		}
+
+		uploadBlockedTime = function() {
+			//TODO ler dados do indexeddb
+			var toSave = {"blockedTimes": [	{"date": "2017091212", "time": "12-13","reason": "Almoço + levando cachorro para passear" }	]};
+
+			uploadDatabase(toSave, "blockedTimes", true);			
+		}
+
+		uploadTest = function (imageURI) {
+         var options = new FileUploadOptions();
+         options.fileKey="file";
+         options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+         options.mimeType="text/plain";
+         options.chunkedMode = false;
+
+         var ft = new FileTransfer();
+         ft.upload(imageURI, "http://posttestserver.com/post.php?dir=example", function(r) {
+			   console.log("Code = " + r.responseCode);
+			   console.log("Response = " + r.response);
+			   console.log("Sent = " + r.bytesSent);
+			   alert(r.response);
+			}, function(error) {
+				alert("An error has occurred: Code = " + error.code);
+			}, options);
+     }
+
+	  loadDatabase = function(database, callback, offline = false) {
 			if(offline) {
 				readLocalDatabase(database, callback);				
 			} else {
@@ -156,6 +190,7 @@ $( document ).ready(function() {
 			loadDatabase('customers', function(customers) {
 				var customerStore = db.transaction(["customer"], "readwrite")
 				    .objectStore("customer")
+				customerStore.clear();
 
 				for(i=0; i<customers.length; i++) {
 					customerStore.add(customers[i]);
@@ -164,9 +199,11 @@ $( document ).ready(function() {
 		}
 
 		loadScheduledTimeFromBackup = function(db, offline = false) {
+			alert('loadScheduledTimeFromBackup offline: '+ offline);
 			loadDatabase('scheduledTimes', function(scheduledTimes) {
 				var scheduledTimeStore = db.transaction(["scheduledTime"], "readwrite")
 				    .objectStore("scheduledTime");
+				scheduledTimeStore.clear();
 
 				for(i=0; i<scheduledTimes.length; i++) {
 					// deleting freeTime
@@ -180,6 +217,7 @@ $( document ).ready(function() {
 			loadDatabase('blockedTimes', function(blockedTimes) {
 				var blockedTimesStore = db.transaction(["blockedTime"], "readwrite")
 				    .objectStore("blockedTime");
+				blockedTimesStore.clear();
 
 				for(i=0; i<blockedTimes.length; i++) {
 					// deleting freeTime
@@ -189,9 +227,12 @@ $( document ).ready(function() {
 			}, offline);
 		}
 
-		createFreeTime = function(db, n = 180) { //seis meses
+		createFreeTime = function(db, n = 500) { //seis meses
 			var freeTimeStore = db.transaction(["freeTime"], "readwrite")
 				    .objectStore("freeTime");
+
+			freeTimeStore.clear();
+			console.log('creating free time, n='+n);
 
 			var startDate = new Date();
 			//01/09/2017
@@ -209,6 +250,7 @@ $( document ).ready(function() {
 					var nextPad = (j+1).toString().padStart(2, "0");
 					objFree = {"date": prefix(d) + currentPad, "time": currentPad + "-" + nextPad};
 					freeTimeStore.add(objFree);
+					console.log(objFree);
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 #customer 
   font-size: 10px
+  line-height: 22px
 
 .custom-combobox 
   position: relative
@@ -29,12 +30,16 @@
   @media (max-width: 1180px)
     max-width: 100%
 
+  #customer-scheduler-content
+    list-style: none
+    padding-left: 0
+
   h2
     margin: 0 0 15px 0
     font-size: 22px
     text-align: center
 
-.work-request
+.customer-form
   width: 100%
   align-items: center
   color: $white
@@ -159,7 +164,7 @@
 
 @media (max-width: 767px)
 
-  .work-request
+  .customer-form
 
     &--options
       flex-direction: row
@@ -175,7 +180,7 @@
   .hire
     min-height: 470px
 
-  .work-request
+  .customer-form
 
     &--options
       margin: 20px 0

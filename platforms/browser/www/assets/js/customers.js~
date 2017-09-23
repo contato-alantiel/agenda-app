@@ -52,48 +52,35 @@ $( document ).ready(function() {
         request.onsuccess = function(event) {
 			  var customer = request.result;
 			  customerName = customer.customerName;
-			  customerCost = customer.customerCost;
+
 			  $('#customer-scheduler h2 span').html(customerName);
-		     $('#session-cost span').html(customerCost + ' reais');
+
 
 			  var objectStore = db.transaction(["scheduledTime"], "readonly")
 			          .objectStore("scheduledTime");
 
-			  lastDayOfMonth = function(date) {
-				  var month = date.getMonth();
-				  var year = date.getYear();
-
-				  if( month == 1 ) { //feb
-						return d.getYear() % 4 === 0 ? 29 : 28;
-				  } else {
-						return (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) ? 31 : 30;
-				  }
-			  }
-
 			  var d = new Date();
 			  var year = d.getFullYear();
 			  var month = (d.getMonth()+1).toString().padStart(2, "0");
+			  var day = (d.getDate()).toString().padStart(2, "0");
 
-			  var dateStart = year + "" + month + "0100"; // first hour of month
-			  var dateEnd = year + "" + month + "" + lastDayOfMonth(d) + "23"; // last hour of month
+			  var dateStart = "2017090100"; // first historic hour
+			  var dateEnd = year + "" + month + "" + day + "23"; // last hour of month
 
 			  $('#toggle-customer-view').removeClass('register').addClass('scheduler').find('span:eq(0)').click();
 
 			  $('#customer-scheduler-content').html('');
-			  $('#customer-total span').html(0);
 
 			  objectStore.index('date').openCursor(IDBKeyRange.bound(dateStart, dateEnd), 'next').onsuccess = function(event) {
 				 var cursor = event.target.result;
 				 if (cursor) {
 					if(cursor.value.customer === id) {
-						console.log(cursor.key, cursor.value);
 						var date = cursor.value.date;
 						var time = cursor.value.time;
 						$('#customer-scheduler-content')
 						.append('<li>')
 						.append(date.substring(6,8) + '/' + date.substring(4,6) +'/'+date.substring(0,4)+ ' - ' + time + 'hrs')
 						.append('</li>');
-				   	$('#customer-total span').html(parseInt($('#customer-total span').html()) + parseInt(customerCost));
 					}
 	
 
@@ -104,14 +91,6 @@ $( document ).ready(function() {
 
         }; // customer success
 	 }
-
-	 shareInvoice = function() {
-		window.plugins.socialsharing.shareViaWhatsApp('teste envio pelo aplicativo - pague o aluguel :p', null /* img */, null /* url */, function() {console.log('sucesso')}, function(errormsg){console.log(errormsg)})
-	 }
-
-    $(".shareCustomerInvoice").click(function (e) {
-		 shareInvoice();
-	 });
 
 	 addRowInHTMLTable = function (tableName, key, values){
 		var actions = {

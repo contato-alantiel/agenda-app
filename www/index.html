@@ -45,6 +45,8 @@
             <li class="is-active"><span>Início</span></li>
             <li><span>Agenda</span></li>
             <li><span>Pacientes</span></li>
+			   <li><span>Contabilização</span></li>
+			   <li><span>Sincronização</span></li>
           </ul>
         </nav>
         <ul class="l-main-content main-content">
@@ -79,9 +81,9 @@
             </div>
           </li>
           <li class="l-section section section">
-            <div class="work">
+            <div class="scheduler">
               <h2>Agenda: <a href="#" class="schedule-toggle-link active">diária</a> | <a href="#" class="schedule-toggle-link">semanal</a></h2>
-              <div class="work--lockup schedule-toggle schedule-day">
+              <div class="scheduler--lockup schedule-toggle schedule-day">
 				  <p class="period-schedule"></p>
               <div class="day-container">
 					<div class="scheduledTime-wrapper day-container--wrapper">
@@ -119,7 +121,7 @@
               </div>
               </div>
 
-			  <div class="work--lockup schedule-toggle  schedule-week hide">
+			  <div class="scheduler--lockup schedule-toggle  schedule-week hide">
 				<p class="period-schedule"></p>
 				<table id="week-schedule">
 					<thead>
@@ -133,6 +135,22 @@
 				        </tr>
 					</thead>
 				    <tbody>
+						<tr>
+						    <td class="filled 06">06-07</td>
+						    <td class="filled 06">06-07</td>
+						    <td class="filled 06">06-07</td>
+						    <td class="filled 06">06-07</td>
+						    <td class="filled 06">06-07</td>
+						    <td class="filled 06">06-07</td>
+						</tr>
+						<tr>
+						    <td class="filled 07">07-08</td>
+						    <td class="filled 07">07-08</td>
+						    <td class="filled 07">07-08</td>
+						    <td class="filled 07">07-08</td>
+						    <td class="filled 07">07-08</td>
+						    <td class="filled 07">07-08</td>
+						</tr>
 						<tr>
 						    <td class="filled 08">08-09</td>
 						    <td class="filled 08">08-09</td>
@@ -278,7 +296,7 @@
             </div>
           </li>
           <li class="l-section section">
-				<div class="hire">
+				<div class="customer">
 
 					<div id="customer-list" class="hide">
 						<h2>Pacientes cadastrados</h2>
@@ -296,19 +314,15 @@
 					</div>
 
 					<div id="customer-scheduler" class="hide">
-						<h2>Agenda do paciente <span></span></h2>
+						<h2>Histórico do paciente <span></span></h2>
 						<ul id="customer-scheduler-content"></ul>
-						<span id="session-cost">valor da sessão: <span></span> reais</span>
-						<span id="customer-total"> | total nesse mês: <span></span> reais</span>
-
-						<p><a href="#" class="shareCustomerInvoice">enviar cobrança (compartilhar)</a></p>
 					</div>
 
-					<form class="work-request">
+					<form class="customer-form">
 						<h2>Cadastro de pacientes</h2>
 
 						<input id="customer-id" type="hidden" value="0">
-						<div class="work-request--information">
+						<div class="customer-form--information">
 							<div class="information-name">
 								<input id="customer-name" type="text" spellcheck="false" placeholder="Nome">
 							</div> <!--.information-name-->
@@ -333,15 +347,63 @@
 								<a id="take-picture">adicionar foto</a>
 							</div>
 						   <input type="submit" value="Salvar" id="add-customer">
-						</div> <!--.work-request--information-->
+						</div> <!--.scheduler--information-->
 
 					</form>
 					<p>
 					  <a id="toggle-customer-view" class='list' href="#"><span>ver pacientes cadastrados</span><span class="hide">ver cadastro de pacientes</span></a>
 					</p>
-				</div> <!--.hire-->
+				</div> <!--.customer-->
+			</li>
+			<li class="l-section section">
+				<div class="charge">
+					<div id="charge-all">
+						<h2>Contabilização</h2>
 
-				</div>
+						<p>Escolha o mês e ano que deseja fazer a contabilização</p>
+
+						<label>Mês</label>
+						<select id="charge-month">
+							<option value="0">Janeiro</option>
+							<option value="1">Fevereiro</option>
+							<option value="2">Março</option>
+							<option value="3">Abril</option>
+							<option value="4">Maio</option>
+							<option value="5">Junho</option>
+							<option value="6">Julho</option>
+							<option value="7">Agosto</option>
+							<option value="8">Setembro</option>
+							<option value="9">Outubro</option>
+							<option value="10">Novembro</option>
+							<option value="11">Dezembro</option>
+						</select>
+
+						<label>Ano</label>
+						<input type="text" value="" id="charge-year">
+
+						<input type="button" value="Ver clientes nesse período" id="see-customers-to-charge">
+
+						<ul id="customers-to-charge-content"></ul>
+					</div>
+					<div id="charge-one" class="hide">
+						<h2>Sessões do paciente <span></span></h2>
+						<ul id="charge-customer-content"></ul>
+						<span id="session-cost">valor da sessão: <span></span> reais</span>
+						<span id="charge-total"> | total do mês: <span></span> reais</span>
+
+						<p><a href="#" class="shareCustomerInvoice">enviar cobrança (compartilhar)</a></p>
+
+						<p><a href="#" id="toggle-charge-list">voltar para lista de pacientes</a></p>
+					</div>
+				</div> <!--.charge-->
+			</li>
+			<li class="l-section section">
+				<div class="sync">
+					<input type="button" value="Enviar para servidor" id="send-to-server">
+					<input type="button" value="Baixar do servidor" id="get-from-server">
+					<input type="button" value="Enviar para backup local" id="send-to-local">
+					<input type="button" value="Baixar do backup local" id="get-from-local">
+				</div> <!--.sync-->
 			</li>
         </ul>
       </div>
@@ -372,12 +434,22 @@
 		</div>
     </div>
 
+	<div id="dialog-block-time" class='dialog' title="Confirmação">
+		  <p>
+			Horário que será bloqueado: <strong class="confirm-time"></strong> <br>
+			Motivo do bloqueio:<br><textarea id="cancelReasonInput" name="cancelReason" rows="3" cols="20"></textarea>
+		  </p>
+		</div>
+    </div>
+
 
   </div>
   <ul class="outer-nav">
     <li class="is-active">Sair</li>
     <li>Agenda</li>
     <li>Pacientes</li>
+    <li>Contabilização</li>
+    <li>Sincronização</li>
   </ul>
 </div>
 
@@ -389,6 +461,8 @@
 <script src="assets/js/loader.js"></script>
 <script src="assets/js/customers.js"></script>
 <script src="assets/js/scheduler.js"></script>
+<script src="assets/js/charge.js"></script>
+<script src="assets/js/sync.js"></script>
 
 <script src="assets/js/vendor/hammer-2.0.8.min.js"></script>
 <script src="assets/js/functions.js"></script>

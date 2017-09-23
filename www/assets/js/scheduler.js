@@ -159,9 +159,13 @@ $( document ).ready(function() {
 					function(e){
 						var objThis = $(e.target);
 
+						var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").replace(/ \(.*\)/, "").split("/");
+						var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd	
+
 						loadCustomersCombobox();
 
 						$( "#dialog-free" ).find(".confirm-time").text(objThis.text());
+						$( "#dialog-block-time" ).find(".confirm-time").text(objThis.text());
 
 						$( "#dialog-free" ).dialog({
 						  resizable: true,
@@ -173,11 +177,37 @@ $( document ).ready(function() {
 							  var toSave = {'date': ""+objThis.data("date"), 'time': objThis.data("time"), 'customer': parseInt($("#combobox").val())};
 							  addToScheduledTime(toSave);
 							  removeFromDB("freeTime", objThis.data("id"));
-							  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").replace(/ \(.*\)/, "").split("/");
-							  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd					
+							  				
 							  loadFromDBToDailyTable("scheduledTime", prefixNow);
+							  loadWeekSchedule(prefixNow);
 							  $(".custom-combobox-input").val("");
 							  $( this ).dialog( "close" );
+							},
+							"Bloquear horário": function() {
+							  $( this ).dialog( "close" );
+							  $( "#dialog-block-time" ).dialog({
+								  resizable: true,
+								  height: "auto",
+								  width: "auto",
+								  modal: true,
+								  buttons: {
+									"Confirmar bloqueio": function() {
+										var toSave = {
+											'date': ""+objThis.data("date"),
+											'time': objThis.data("time"),
+											'reason': $("#cancelReasonInput").val()
+										};
+										
+										addToBlockedTime(toSave);
+										removeFromDB("freeTime", objThis.data("id"));
+
+										loadFromDBToDailyTable("blockedTime", prefixNow);
+									 	loadWeekSchedule(prefixNow);
+
+										$( this ).dialog( "close" );
+									}
+								  }
+							  });
 							},
 							"Cancelar": function() {
 							  $(".custom-combobox-input").val("");
@@ -254,7 +284,6 @@ $( document ).ready(function() {
 
 
 			function addToBlockedTime(schedulerOBJ){
-
 				var request = db.transaction(["blockedTime"], "readwrite")
 				          .objectStore("blockedTime")
 				          .add(schedulerOBJ);

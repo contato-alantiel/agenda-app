@@ -1,13 +1,15 @@
 #week-schedule
   border: 1px solid #ccc
-  width: 85% 
+  width: 87% 
   margin: 0 auto
+  line-height: 20px
 
   @media (max-width: 1180px)
     font-size: 11px
 
   th, td
     border: 1px solid #ccc
+    padding-left: 5px
 
   th
     padding: 5px
@@ -35,7 +37,7 @@ a
   p
     display: block
 
-.work
+.scheduler
   position: relative
   display: flex
   width: 960px
@@ -77,8 +79,8 @@ a
 
   &--lockup
     position: relative
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-y: auto
+    overflow-x: hidden
 
     .slider--next,
     .slider--prev
@@ -105,7 +107,7 @@ a
 
 @media (max-width: 900px)
 
-  .work
+  .scheduler
 
     &--lockup
 
@@ -115,7 +117,7 @@ a
 
 @media (max-width: 767px)
 
-  .work
+  .scheduler
 
     &--lockup
 
@@ -126,7 +128,7 @@ a
 @media (max-width: 600px)
 
 
-  .work
+  .scheduler
     line-height: 1.1
 
     .period-schedule

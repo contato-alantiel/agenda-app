@@ -79,41 +79,55 @@ document.addEventListener("deviceready", function () {
 	var expires = "expires="+ d.toUTCString();
 	document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 
-	var successLogin = function(offline = false) {
-		loadCustomerFromBackup(db, offline);
-		loadScheduledTimeFromBackup(db, offline);
-		loadBlockedTimeFromBackup(db, offline);
+	var successLoginReset = function(offline = false) {
+		createFreeTime(db);
 
 		setTimeout(function(){ 
-			initCustomers();
-			initScheduler();
+			loadCustomerFromBackup(db, offline);
+			loadScheduledTimeFromBackup(db, offline);
+			loadBlockedTimeFromBackup(db, offline);
+		}, 5000);
 
-			updateNavs(nextPos);
-			updateContent(curPos, nextPos, lastItem);
-			$("#user-pass").val("");
-			$('.header--nav-toggle').removeClass('hide');
-		}, 1000);
+		setTimeout(function(){
+			alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
+			successLoginCallback();
+		}, 5000);
+	}
+
+	var successLoginCallback = function() {
+		initCustomers();
+		initScheduler();
+
+		updateNavs(nextPos);
+		updateContent(curPos, nextPos, lastItem);
+		$("#user-pass").val("");
+		$('.header--nav-toggle').removeClass('hide');	
 	}
 
 	//TODO fazer validacao backend
-	if(cookieValue.toLowerCase() === 'f-' || cookieValue === 'rodrigo-admin123') {
-		$( "#dialog-offline" ).dialog({
-		  resizable: true,
-		  height: "auto",
-		  width: "auto",
-		  modal: true,
-		  closeOnEscape: false,
-		  buttons: {
-			"Baixar versão online": function() {
-			  successLogin(false);
-			  $( this ).dialog( "close" );
-			},
-			"Trabalhar offline": function() {
-			  successLogin(true);
-			  $( this ).dialog( "close" );
-			}
-		  }
-		});
+	if(cookieValue.toLowerCase() === 'f-' || cookieValue === 'rodrigo-admin123' || cookieValue === 'reset-reset') {
+
+		if(cookieValue === 'reset-reset') {
+			$( "#dialog-offline" ).dialog({
+			  resizable: true,
+			  height: "auto",
+			  width: "auto",
+			  modal: true,
+			  closeOnEscape: false,
+			  buttons: {
+				"Resetar para versão online": function() {
+				  successLoginReset(false);
+				  $( this ).dialog( "close" );
+				},
+				"Resetar para versão de backup local": function() {
+				  successLoginReset(true);
+				  $( this ).dialog( "close" );
+				}
+			  }
+			});
+		} else {
+			successLoginCallback();
+		}
 		
 	} else {
 		alert('Ops! Login incorreto.');
