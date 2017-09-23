@@ -16,10 +16,10 @@ $( document ).ready(function() {
 		}, 5000);
 	}
 
-	syncDownload = function(offline) {
-		uploadCustomer(offline);
-		uploadBlockedTime(offline);
-		uploadScheduledTime(offline);
+	syncUpload = function(offline) {
+		readAndUploadDB("customer", offline);
+		readAndUploadDB("blockedTime", offline);
+		readAndUploadDB("scheduledTime", offline);
 	}
 
    $("#get-from-server").click(function (e) {
@@ -27,7 +27,7 @@ $( document ).ready(function() {
 	});
 
    $("#send-to-server").click(function (e) {
-		 syncDownload(false);
+		 syncUpload(false);
 	});
 
    $("#get-from-local").click(function (e) {
@@ -35,7 +35,7 @@ $( document ).ready(function() {
 	});
 
    $("#send-to-local").click(function (e) {
-		 syncDownload(true);
+		 syncUpload(true);
 	});
 
 	

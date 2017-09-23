@@ -167,6 +167,7 @@ $( document ).ready(function() {
 					cursor.continue();
 				 }
 			}; 
+
 			var toSave = {"blockedTimes": items };
 
 			transaction.oncomplete = function(evt) {  

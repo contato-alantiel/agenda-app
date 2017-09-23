@@ -1454,11 +1454,17 @@ a {
   visibility: hidden;
   transition: visibility 0s 0.2s;
 }
-/* line 53, modules/_outer-nav.sass */
+@media (max-width: 600px) {
+  /* line 40, modules/_outer-nav.sass */
+  .outer-nav {
+    left: 41%;
+  }
+}
+/* line 56, modules/_outer-nav.sass */
 .outer-nav.is-vis {
   visibility: visible;
 }
-/* line 56, modules/_outer-nav.sass */
+/* line 59, modules/_outer-nav.sass */
 .outer-nav--return {
   position: absolute;
   top: 0;
@@ -1469,11 +1475,11 @@ a {
   cursor: pointer;
   z-index: 11;
 }
-/* line 66, modules/_outer-nav.sass */
+/* line 69, modules/_outer-nav.sass */
 .outer-nav--return.is-vis {
   display: block;
 }
-/* line 69, modules/_outer-nav.sass */
+/* line 72, modules/_outer-nav.sass */
 .outer-nav > li {
   transform-style: preserve-3d;
   transform: translateX(350px) translateZ(-1000px);
@@ -1483,13 +1489,13 @@ a {
   cursor: pointer;
   transition: transform 0.2s, opacity 0.2s;
 }
-/* line 78, modules/_outer-nav.sass */
+/* line 81, modules/_outer-nav.sass */
 .outer-nav > li.is-vis {
   transform: translateX(0) translateZ(0);
   opacity: 1;
   transition: transform 0.4s, opacity 0.4s;
 }
-/* line 83, modules/_outer-nav.sass */
+/* line 86, modules/_outer-nav.sass */
 .outer-nav > li::before {
   content: "";
   position: absolute;
@@ -1501,35 +1507,35 @@ a {
   opacity: 0;
   background-color: #0f33ff;
 }
-/* line 94, modules/_outer-nav.sass */
+/* line 97, modules/_outer-nav.sass */
 .outer-nav > li.is-active::before {
   opacity: 1;
 }
 @media (max-width: 767px) {
-  /* line 69, modules/_outer-nav.sass */
+  /* line 72, modules/_outer-nav.sass */
   .outer-nav > li {
     font-size: 44px;
   }
 }
 @media (max-width: 600px) {
-  /* line 69, modules/_outer-nav.sass */
+  /* line 72, modules/_outer-nav.sass */
   .outer-nav > li {
-    font-size: 34px;
+    font-size: 30px;
   }
 }
-/* line 103, modules/_outer-nav.sass */
+/* line 106, modules/_outer-nav.sass */
 .outer-nav li.is-vis:nth-child(2) {
   transition-delay: 0.04s;
 }
-/* line 106, modules/_outer-nav.sass */
+/* line 109, modules/_outer-nav.sass */
 .outer-nav li.is-vis:nth-child(3) {
   transition-delay: 0.08s;
 }
-/* line 109, modules/_outer-nav.sass */
+/* line 112, modules/_outer-nav.sass */
 .outer-nav li.is-vis:nth-child(4) {
   transition-delay: 0.12s;
 }
-/* line 112, modules/_outer-nav.sass */
+/* line 115, modules/_outer-nav.sass */
 .outer-nav li.is-vis:nth-child(5) {
   transition-delay: 0.16s;
 }

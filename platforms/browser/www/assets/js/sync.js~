@@ -17,21 +17,17 @@ $( document ).ready(function() {
 	}
 
 	syncDownload = function(offline) {
-		uploadCustomer(offline);
-		uploadBlockedTime(offline);
-		uploadScheduledTime(offline);
+		readAndUploadDB("customer", offline);
+		readAndUploadDB("blockedTime", offline);
+		readAndUploadDB("scheduledTime", offline);
 	}
 
    $("#get-from-server").click(function (e) {
 		 syncDownload(false);
 	});
 
-   sendToServer = function() {
-	    syncDownload(false);
-	}
-
    $("#send-to-server").click(function (e) {
-		 sendToServer();
+		 syncDownload(false);
 	});
 
    $("#get-from-local").click(function (e) {
