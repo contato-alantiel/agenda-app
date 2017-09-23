@@ -157,7 +157,7 @@ $( document ).ready(function() {
 
 		uploadBlockedTime = function(offline = false) {
 			var items = [];
-			var objectStore = db.transaction(tableName).objectStore(tableName);
+			var objectStore = db.transaction("blockedTime").objectStore("blockedTime");
 			  objectStore.openCursor().onsuccess = function(event) {
 				 var cursor = event.target.result;
 				 if (cursor) {

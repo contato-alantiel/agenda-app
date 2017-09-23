@@ -156,8 +156,16 @@ $( document ).ready(function() {
 		}
 
 		uploadBlockedTime = function(offline = false) {
-			//TODO ler dados do indexeddb
-			var toSave = {"blockedTimes": [	{"date": "2017091212", "time": "12-13","reason": "Almoço + levando cachorro para passear" }	]};
+			var items = [];
+			var objectStore = db.transaction(tableName).objectStore(tableName);
+			  objectStore.openCursor().onsuccess = function(event) {
+				 var cursor = event.target.result;
+				 if (cursor) {
+					items.push(cursor.value);
+					cursor.continue();
+				 }
+			}; 
+			var toSave = {"blockedTimes": items };
 
 			backupDatabase(toSave, "blockedTimes", offline);
 		}
