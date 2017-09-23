@@ -169,7 +169,7 @@ $( document ).ready(function() {
 			   console.log("Sent = " + r.bytesSent);
 			   alert(r.response);
 			}, function(error) {
-				alert("An error has occurred: Code = " = error.code);
+				alert("An error has occurred: Code = " + error.code);
 			}, options);
      }
 

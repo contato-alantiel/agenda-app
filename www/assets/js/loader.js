@@ -161,6 +161,9 @@ $( document ).ready(function() {
          options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
          options.mimeType="text/plain";
          options.chunkedMode = false;
+			options.headers = {
+				Connection: "close"
+			};
 
          var ft = new FileTransfer();
          ft.upload(imageURI, "http://posttestserver.com/post.php?dir=example", function(r) {
