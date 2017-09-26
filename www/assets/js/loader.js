@@ -132,7 +132,8 @@ $( document ).ready(function() {
 					if(offline) {
 						alert('Backup concluido: ' + file.nativeURL);
 					} else {
-						uploadTest(file.nativeURL);
+						//uploadTest(file.nativeURL);
+						sendToGithub(database, JSON.stringify(data));
 					}
 				 },
 				 error: function(error) {
@@ -172,6 +173,13 @@ $( document ).ready(function() {
 
 		}
 
+		sendToGithub = function(database, content) {
+			$.post("http://www.alantiel.com/update-github", { database: database, content: content }).done(function( d ) {
+			 console.log( "Backup concluido " + d );
+		  })
+		}
+
+		// funcional, mas farei upload via github - diretamente com o conteudo
 		uploadTest = function (imageURI) {
          var options = new FileUploadOptions();
          options.fileKey="file";
