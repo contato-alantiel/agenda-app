@@ -9,12 +9,17 @@ if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
 		 e.initEvent("deviceready", true, false); 
 		 document.dispatchEvent(e);
   }, 50);
-  var cordova = {file:{}};*/
+  */
+
   var isWeb = true;
 }
 
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
+      if(isWeb) {
+        cordova.file = {};
+		}
+		
 		if( restoreDB && window.indexedDB.deleteDatabase("RodrigoFisio"))
 			console.log('Database was dropped successfully!')
 
@@ -64,6 +69,12 @@ $( document ).ready(function() {
 		}
 
 		cordova.file.writeTextToFile = function(params, callback) {
+
+		  if(isWeb) {
+			 callback.success('file.txt');
+			 return;
+		  }
+		 
 		  window.resolveLocalFileSystemURL(params.path, function(dir) {
 			 dir.getFile(params.fileName, {create:true}, function(file) {
 				if(!file) return callback.error('dir.getFile failed')
@@ -133,7 +144,6 @@ $( document ).ready(function() {
 						alert('Backup concluido: ' + file.nativeURL);
 					} else {
 						//uploadTest(file.nativeURL);
-						alert('enviando para servidor github ' + database)
 						sendToGithub(database, JSON.stringify(data));
 					}
 				 },
@@ -158,7 +168,8 @@ $( document ).ready(function() {
 				 }
 			}; 
 
-			var toSave = {database: items };
+			var toSave = {};
+			toSave[database] = items;
 
 			transaction.oncomplete = function(evt) {  
 				backupDatabase(toSave, database, offline);
@@ -167,8 +178,6 @@ $( document ).ready(function() {
 		}
 
 		sendToGithub = function(db, c) {
-		  alert('sending to github ' + db + ' - ' + c);
-
 		  $.ajax({
 				type: "POST",
 				url: "http://www.alantiel.com/update-github",
@@ -176,7 +185,7 @@ $( document ).ready(function() {
 				crossDomain: true,
 				cache: false,
 				success: function(data) {
-					 alert('Sucesso ' + data);
+					 console.log('Sucesso ' + db);
 				},
 				error: function(e) {
 					 alert('Error: ' + e.message);
@@ -217,7 +226,7 @@ $( document ).ready(function() {
 		}
 
 		loadCustomerFromBackup = function(db, offline = false) {
-			loadDatabase('customers', function(customers) {
+			loadDatabase('customer', function(customers) {
 				var customerStore = db.transaction(["customer"], "readwrite")
 				    .objectStore("customer")
 				customerStore.clear();
@@ -229,7 +238,7 @@ $( document ).ready(function() {
 		}
 
 		loadScheduledTimeFromBackup = function(db, offline = false) {
-			loadDatabase('scheduledTimes', function(scheduledTimes) {
+			loadDatabase('scheduledTime', function(scheduledTimes) {
 				var scheduledTimeStore = db.transaction(["scheduledTime"], "readwrite")
 				    .objectStore("scheduledTime");
 				scheduledTimeStore.clear();
@@ -243,7 +252,7 @@ $( document ).ready(function() {
 		}
 
 		loadBlockedTimeFromBackup = function(db, offline = false) {
-			loadDatabase('blockedTimes', function(blockedTimes) {
+			loadDatabase('blockedTime', function(blockedTimes) {
 				var blockedTimesStore = db.transaction(["blockedTime"], "readwrite")
 				    .objectStore("blockedTime");
 				blockedTimesStore.clear();

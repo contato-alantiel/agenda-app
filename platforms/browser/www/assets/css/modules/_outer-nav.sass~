@@ -50,6 +50,9 @@
   visibility: hidden
   transition: visibility 0s .2s
 
+  @media (max-width: 600px)
+    left: 38%
+
   &.is-vis
     visibility: visible
 
@@ -98,7 +101,7 @@
       font-size: 44px
 
     @media (max-width: 600px)
-      font-size: 34px
+      font-size: 30px
 
   li.is-vis:nth-child(2)
     transition-delay: .04s
