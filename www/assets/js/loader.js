@@ -167,12 +167,21 @@ $( document ).ready(function() {
 		}
 
 		sendToGithub = function(db, c) {
-			alert('sending to github ' + db + ' - ' + c);
-			$.post("http://www.alantiel.com/update-github", { database: db, content: c }).done(function( d ) {
-			 console.log( "Backup finalizado " + d );
-		  }).fail(function(x) {
-			 alert( "error " + db + " - " + x );
-		  })
+		  alert('sending to github ' + db + ' - ' + c);
+
+		  $.ajax({
+				type: "POST",
+				url: "http://www.alantiel.com/update-github",
+				data: { database: db, content: c },
+				crossDomain: true,
+				cache: false,
+				success: function(data) {
+					 alert('Sucesso ' + data);
+				},
+				error: function(e) {
+					 alert('Error: ' + e.message);
+				}
+			});
 		}
 
 		// funcional, mas farei upload via github - diretamente com o conteudo
