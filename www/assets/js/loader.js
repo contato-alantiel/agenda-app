@@ -131,7 +131,7 @@ $( document ).ready(function() {
 			 });
 		}
 
-		backupDatabase = function(data, database, offline = true) {
+		backupDatabase = function(data, database, offline = true, callback = false) {
 			cordova.file.writeTextToFile({
 				 text:  JSON.stringify(data),
 				 path: cordova.file.externalDataDirectory,
@@ -141,21 +141,25 @@ $( document ).ready(function() {
 			  {
 				 success: function(file) {
 					if(offline) {
-						alert('Backup concluido: ' + file.nativeURL);
+						if(!callback) {
+							alert('Backup concluido: ' + file.nativeURL);
+						} else {
+							callback(file);
+						}
 					} else {
 						//uploadTest(file.nativeURL);
-						sendToGithub(database, JSON.stringify(data));
+						sendToGithub(database, JSON.stringify(data), callback);
 					}
 				 },
 				 error: function(error) {
-					alert('Erro no processo de backup: ' + error)
+					alert('Erro no processo de backup: ' + database + ' - ' + error)
 				 }
 			  }
 			);
 
 		}
 
-		readAndUploadDB = function(database, offline = false) {
+		readAndUploadDB = function(database, offline = false, callback = false) {
 			var items = [];
 			var transaction = db.transaction(database);
 			var objectStore = transaction.objectStore(database);
@@ -172,12 +176,12 @@ $( document ).ready(function() {
 			toSave[database] = items;
 
 			transaction.oncomplete = function(evt) {  
-				backupDatabase(toSave, database, offline);
+				backupDatabase(toSave, database, offline, callback);
 			};
 
 		}
 
-		sendToGithub = function(db, c) {
+		sendToGithub = function(db, c, callback = false) {
 		  $.ajax({
 				type: "POST",
 				url: "http://www.alantiel.com/update-github",
@@ -185,10 +189,16 @@ $( document ).ready(function() {
 				crossDomain: true,
 				cache: false,
 				success: function(data) {
-					 console.log('Sucesso ' + db);
+					if(!callback) {
+						if(db == 'customer') alert('Sucesso no backup de pacientes');
+						else if(db == 'blockedTime') alert('Sucesso no backup de agenda bloqueada');
+						else if(db == 'scheduledTime') alert('Sucesso no backup de agenda preenchida');
+					} else {
+						callback(data);
+					}
 				},
 				error: function(e) {
-					 alert('Error: ' + e.message);
+					 alert('Error on backup '+ db +': ' + e.message);
 				}
 			});
 		}
@@ -220,7 +230,7 @@ $( document ).ready(function() {
 				function(data) 
 				{
 					callback(data[database]);
-					backupDatabase(data, database);
+					backupDatabase(data, database, false, function() { console.log('backup ' + database + ' OK!') });
 				});
 			}
 		}

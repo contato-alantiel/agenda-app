@@ -8,24 +8,26 @@ $( document ).ready(function() {
 			loadCustomerFromBackup(db, offline);
 			loadScheduledTimeFromBackup(db, offline);
 			loadBlockedTimeFromBackup(db, offline);
-		}, 5000);
 
-		setTimeout(function(){
-			alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
-			successLoginCallback();
+			setTimeout(function(){
+				alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
+			}, 5000);
 		}, 5000);
 	}
 
 	syncUpload = function(offline) {
-		setTimeout(function(){ 
-			readAndUploadDB("customer", offline);
+		readAndUploadDB("customer", offline, function() {
 			setTimeout(function(){ 
-				readAndUploadDB("blockedTime", offline);
-				setTimeout(function(){ 
-					readAndUploadDB("scheduledTime", offline);
-				}, 2000);
+				readAndUploadDB("blockedTime", offline, function() {
+					setTimeout(function(){ 
+						readAndUploadDB("scheduledTime", offline, function() {
+							alert('Backup concluido com sucesso!')
+						});
+					}, 3000);
+				});
 			}, 2000);
-		}, 500);
+		});
+		
 	}
 
    $("#get-from-server").click(function (e) {
