@@ -284,8 +284,6 @@ $( document ).ready(function() {
 
 
 			function addToBlockedTime(schedulerOBJ){
-				console.log(schedulerOBJ);
-
 				var request = db.transaction(["blockedTime"], "readwrite")
 				          .objectStore("blockedTime")
 				          .add(schedulerOBJ);

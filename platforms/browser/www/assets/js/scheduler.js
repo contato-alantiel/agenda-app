@@ -298,7 +298,7 @@ $( document ).ready(function() {
 			}
 
 			function scheculerSlider() {
-				$('.slider--prev, .slider--next', $(".schedule-day")).click(function(e) {
+				$('.slider--prev, .slider--next', $(".schedule-day")).unbind("click").click(function(e) {
 					var objThis = $(e.target);
 					var increment = 1;
 					if(objThis.is(".slider--prev") || objThis.parents(".slider--prev").length > 0) {
@@ -312,7 +312,7 @@ $( document ).ready(function() {
 					loadDaySchedule(toDate.toISOString().slice(0,10).replace(/-/g,""));
 				});
 
-				$('.slider--prev, .slider--next', $(".schedule-week")).click(function(e) {
+				$('.slider--prev, .slider--next', $(".schedule-week")).unbind("click").click(function(e) {
 					var objThis = $(e.target);
 					var increment = 7;
 					if(objThis.is(".slider--prev") || objThis.parents(".slider--prev").length > 0) {
