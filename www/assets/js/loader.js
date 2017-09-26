@@ -133,6 +133,7 @@ $( document ).ready(function() {
 						alert('Backup concluido: ' + file.nativeURL);
 					} else {
 						//uploadTest(file.nativeURL);
+						alert('enviando para servidor github ' + database)
 						sendToGithub(database, JSON.stringify(data));
 					}
 				 },
@@ -142,14 +143,6 @@ $( document ).ready(function() {
 			  }
 			);
 
-		}
-
-		uploadDatabase = function(data, database, offline = false) {
-			if(offline) {
-				backupDatabase(data, database);				
-			} else {
-				alert('todo');
-			}
 		}
 
 		readAndUploadDB = function(database, offline = false) {
@@ -175,7 +168,9 @@ $( document ).ready(function() {
 
 		sendToGithub = function(database, content) {
 			$.post("http://www.alantiel.com/update-github", { database: database, content: content }).done(function( d ) {
-			 console.log( "Backup concluido " + d );
+			 console.log( "Backup finalizado " + d );
+		  }).fail(function(x) {
+			 alert( "error " + database + " - " + x );
 		  })
 		}
 
