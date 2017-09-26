@@ -17,9 +17,15 @@ $( document ).ready(function() {
 	}
 
 	syncUpload = function(offline) {
-		readAndUploadDB("customer", offline);
-		readAndUploadDB("blockedTime", offline);
-		readAndUploadDB("scheduledTime", offline);
+		setTimeout(function(){ 
+			readAndUploadDB("customer", offline);
+			setTimeout(function(){ 
+				readAndUploadDB("blockedTime", offline);
+				setTimeout(function(){ 
+					readAndUploadDB("scheduledTime", offline);
+				}, 3000);
+			}, 2000);
+		}, 500);
 	}
 
    $("#get-from-server").click(function (e) {
