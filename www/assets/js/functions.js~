@@ -119,7 +119,7 @@ document.addEventListener("deviceready", function () {
 				  successLoginReset(false);
 				  $( this ).dialog( "close" );
 				},
-				"Resetar para versão backup local": function() {
+				"Resetar para versão de backup local": function() {
 				  successLoginReset(true);
 				  $( this ).dialog( "close" );
 				}

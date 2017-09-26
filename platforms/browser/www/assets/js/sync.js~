@@ -1,27 +1,27 @@
 $( document ).ready(function() {
 	document.addEventListener("deviceready", function () {
 
-	syncDownload = function(offline) {
-		createFreeTime(db);
+	syncDownload = function(offline, callback) {
+		createFreeTime(db, function() {
+			setTimeout(function(){ 
+				loadCustomerFromBackup(db, offline);
+				loadScheduledTimeFromBackup(db, offline);
+				loadBlockedTimeFromBackup(db, offline);
 
-		setTimeout(function(){ 
-			loadCustomerFromBackup(db, offline);
-			loadScheduledTimeFromBackup(db, offline);
-			loadBlockedTimeFromBackup(db, offline);
-
-			setTimeout(function(){
-				alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
-			}, 5000);
-		}, 5000);
+				setTimeout(function(){
+					callback();
+				}, 5000);
+			}, 2000);
+		});
 	}
 
-	syncUpload = function(offline) {
+	syncUpload = function(offline, callback) {
 		readAndUploadDB("customer", offline, function() {
 			setTimeout(function(){ 
 				readAndUploadDB("blockedTime", offline, function() {
 					setTimeout(function(){ 
 						readAndUploadDB("scheduledTime", offline, function() {
-							alert('Backup concluido com sucesso!')
+							callback();
 						});
 					}, 3000);
 				});
@@ -31,19 +31,52 @@ $( document ).ready(function() {
 	}
 
    $("#get-from-server").click(function (e) {
-		 syncDownload(false);
+       e.preventDefault();
+		 e.stopPropagation();
+		 var objThis = $(e.target);
+		 objThis.data("old-text", objThis.val()).val("Baixando... aguarde!");
+		 syncDownload(false, function() {
+			objThis.val(objThis.data("old-text"));
+			alert('Restauração realizada, para melhor desempenho, faça um novo login!');
+			$("#logout-link").click();
+		 });
 	});
 
    $("#send-to-server").click(function (e) {
-		 syncUpload(false);
+       e.preventDefault();
+		 e.stopPropagation();
+		 var objThis = $(e.target);
+		 objThis.data("old-text", objThis.val()).val("Enviando... aguarde!");
+
+		 syncUpload(false, function() {
+			objThis.val(objThis.data("old-text"));
+			alert('Backup para servidor concluido com sucesso!');
+		 });
 	});
 
    $("#get-from-local").click(function (e) {
-		 syncDownload(true);
+       e.preventDefault();
+		 e.stopPropagation();
+		 var objThis = $(e.target);
+		 objThis.data("old-text", objThis.val()).val("Baixando... aguarde!");
+
+		 syncDownload(true, , function() {
+			objThis.val(objThis.data("old-text"));
+			alert('Restauração realizada, para melhor desempenho, faça um novo login!');
+			$("#logout-link").click();
+		 });
 	});
 
    $("#send-to-local").click(function (e) {
-		 syncUpload(true);
+       e.preventDefault();
+		 e.stopPropagation();
+		 var objThis = $(e.target);
+		 objThis.data("old-text", objThis.val()).val("Enviando... aguarde!");
+
+		 syncUpload(true, function() {
+			objThis.val(objThis.data("old-text"));
+			alert('Backup local concluido com sucesso!');
+		 });
 	});
 
 	

@@ -230,7 +230,7 @@ $( document ).ready(function() {
 				function(data) 
 				{
 					callback(data[database]);
-					backupDatabase(data, database, false, function() { console.log('backup ' + database + ' OK!') });
+					backupDatabase(data, database, true, function() { console.log('backup ' + database + ' OK!') });
 				});
 			}
 		}

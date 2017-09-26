@@ -275,7 +275,7 @@ $( document ).ready(function() {
 			}, offline);
 		}
 
-		createFreeTime = function(db, n = 500) { //seis meses
+		createFreeTime = function(db, callback, n = 500) { //seis meses
 			var freeTimeStore = db.transaction(["freeTime"], "readwrite")
 				    .objectStore("freeTime");
 
@@ -301,6 +301,8 @@ $( document ).ready(function() {
 					console.log(objFree);
 				}
 			}
+
+			callback();
 		}
 
 		deleteFreeTime = function(db, date) {

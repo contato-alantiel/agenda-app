@@ -401,6 +401,8 @@
 				<div class="sync">
 					<input type="button" value="Enviar para servidor" id="send-to-server">
 					<input type="button" value="Baixar do servidor" id="get-from-server">
+					<input type="button" value="Enviar para backup local" id="send-to-local">
+					<input type="button" value="Baixar do backup local" id="get-from-local">
 				</div> <!--.sync-->
 			</li>
         </ul>
