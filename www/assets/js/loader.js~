@@ -159,7 +159,7 @@ $( document ).ready(function() {
 
 		}
 
-		readAndUploadDB = function(database, offline = false) {
+		readAndUploadDB = function(database, offline = false, callback = false) {
 			var items = [];
 			var transaction = db.transaction(database);
 			var objectStore = transaction.objectStore(database);
@@ -176,7 +176,7 @@ $( document ).ready(function() {
 			toSave[database] = items;
 
 			transaction.oncomplete = function(evt) {  
-				backupDatabase(toSave, database, offline);
+				backupDatabase(toSave, database, offline, callback);
 			};
 
 		}
