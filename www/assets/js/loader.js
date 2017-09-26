@@ -166,11 +166,12 @@ $( document ).ready(function() {
 
 		}
 
-		sendToGithub = function(database, content) {
-			$.post("http://www.alantiel.com/update-github", { database: database, content: content }).done(function( d ) {
+		sendToGithub = function(db, c) {
+			alert('sending to github ' + db + ' - ' + c);
+			$.post("http://www.alantiel.com/update-github", { database: db, content: c }).done(function( d ) {
 			 console.log( "Backup finalizado " + d );
 		  }).fail(function(x) {
-			 alert( "error " + database + " - " + x );
+			 alert( "error " + db + " - " + x );
 		  })
 		}
 
