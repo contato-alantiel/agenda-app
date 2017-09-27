@@ -445,7 +445,7 @@
 
   </div>
   <ul class="outer-nav">
-    <li class="is-active">Sair</li>
+    <li id="logout-link" class="is-active">Sair</li>
     <li>Agenda</li>
     <li>Pacientes</li>
     <li>Contabilização</li>

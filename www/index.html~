@@ -432,20 +432,24 @@
 			Deseja desbloquear esse horário?
 		  </p>
 		</div>
-    </div>
 
-	<div id="dialog-block-time" class='dialog' title="Confirmação">
+	   <div id="dialog-block-time" class='dialog' title="Confirmação">
 		  <p>
 			Horário que será bloqueado: <strong class="confirm-time"></strong> <br>
 			Motivo do bloqueio:<br><textarea id="cancelReasonInput" name="cancelReason" rows="3" cols="20"></textarea>
 		  </p>
-		</div>
-    </div>
+	   </div>
+
+		<div id="dialog-detail-img" class='dialog' title="Imagem">
+		  <img width="300">
+	   </div>
+
+   </div>
 
 
   </div>
   <ul class="outer-nav">
-    <li class="is-active">Sair</li>
+    <li id="logout-link" class="is-active">Sair</li>
     <li>Agenda</li>
     <li>Pacientes</li>
     <li>Contabilização</li>

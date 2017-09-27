@@ -38,8 +38,10 @@ $( document ).ready(function() {
 
 			  $(".information-images img").remove();
 			  customer.customerImages.forEach(function(item) {
-				 $(".information-images").prepend($('<img>',{src: item}).height(80))
+				 $(".information-images").prepend($('<img>',{src: item, id: 'img-item-'+$(".information-images img").size()}).height(80))
 			  });
+
+			  imageDetail();
 
 			  $('#toggle-customer-view span:eq(0)').click();
         };
@@ -181,6 +183,18 @@ $( document ).ready(function() {
         };
 	}
 
+	imageDetail = function() {
+		$(".information-images img").unbind('click').click(function(e) {
+			var objThis = $(e.target);
+
+			alert(objThis.attr('id'));
+
+			$("#dialog-detail-img img").attr('src', objThis.attr('src'));
+
+			$("#dialog-detail-img").dialog();
+		});
+	}
+
 	captureImage = function() {
 		var captureSuccess = function(mediaFiles) {
 			 var i, path, len;
@@ -188,7 +202,9 @@ $( document ).ready(function() {
 				  path = mediaFiles[i].fullPath;
 				  var random = Math.floor(Math.random()*1000);
 				  var uncachedPath = path + "?r=" + random;
-				  $(".information-images").prepend($('<img>',{src:uncachedPath}).height(80));
+				  $(".information-images").prepend($('<img>',{src: uncachedPath, id: 'img-item-'+$(".information-images img").size()}).height(80))
+
+				  imageDetail();
 			 }
 		};
 
