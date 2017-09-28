@@ -31,8 +31,8 @@ $( document ).ready(function() {
 
 				$(".schedule-day .period-schedule").data("prefix", prefix).text("Data: " + prefix.slice(6, 8) + "/" + prefix.slice(4, 6) + "/" + prefix.slice(0,4) + ' (' + txtWeekdays[utcDate] + ')');
 				loadFromDBToDailyTable("scheduledTime", prefix);
-				loadFromDBToDailyTable("freeTime", prefix);
 				loadFromDBToDailyTable("blockedTime", prefix);
+				loadFreeTimeToDailyTable(prefix);
 			}
 
 			function loadWeekSchedule(prefix) {
@@ -74,6 +74,38 @@ $( document ).ready(function() {
 				  }
 			}
 
+			function loadFreeTimeToDailyTable(date){
+				emptyDiv("freeTime");
+
+				for(j = 6; j<=22; j++) {
+					var currentPad = j.toString().padStart(2, "0");
+					var nextPad = (j+1).toString().padStart(2, "0");
+					objFree = {"date": date + currentPad, "time": currentPad + "-" + nextPad};
+					
+					addRowInHTMLDiv("freeTime", j, objFree);
+				}
+
+				var objectStore = db.transaction("scheduledTime").objectStore("scheduledTime");
+				objectStore.index('date').openCursor(IDBKeyRange.bound(date+"00", date+"23"), 'next').onsuccess = function(event) {
+				 var cursor = event.target.result;
+				 if (cursor) {
+					$("#freeTime").find("[data-date="+ cursor.value.date +"]").parents("p").remove();
+					console.log('removendo (scheduled) ' + cursor.value.date);
+					cursor.continue();
+				 }
+				}; 
+
+				objectStore = db.transaction("blockedTime").objectStore("blockedTime");
+				objectStore.index('date').openCursor(IDBKeyRange.bound(date+"00", date+"23"), 'next').onsuccess = function(event) {
+				 var cursor = event.target.result;
+				 if (cursor) {
+					$("#freeTime").find("[data-date="+ cursor.value.date +"]").parents("p").remove()
+					console.log('removendo (blocked) ' + cursor.value.date);
+					cursor.continue();
+				 }
+				}; 
+			}
+
 			function loadFromDBToDailyTable(tableName, date){
 				emptyDiv(tableName);
 				var objectStore = db.transaction(tableName).objectStore(tableName);
@@ -88,29 +120,46 @@ $( document ).ready(function() {
 			}
 
 			function loadFromDBToWeeklyTable(columnNumber, date){
-				$("tbody tr td", $("#week-schedule")).removeClass('not-filled').addClass('filled');
+				$("tbody tr td", $("#week-schedule")).removeClass('filled').addClass('not-filled');
 
-				var objectStore = db.transaction("freeTime").objectStore("freeTime");
+				var objectStore = db.transaction("scheduledTime").objectStore("scheduledTime");
 		  
 				objectStore.index('date').openCursor(IDBKeyRange.bound(date+"00", date+"23"), 'next').onsuccess = function(event) {
 				  var cursor = event.target.result;
 				  if (cursor) {
-					 $("tbody tr td."+cursor.key.slice(8,10)+":nth-child("+(columnNumber)+")", $("#week-schedule")).removeClass("filled").addClass("not-filled");
+					 $("tbody tr td."+cursor.key.slice(8,10)+":nth-child("+(columnNumber)+")", $("#week-schedule")).removeClass("not-filled").addClass("filled");
+					 cursor.continue();
+				  }
+				};
+
+				objectStore = db.transaction("blockedTime").objectStore("blockedTime");
+		  
+				objectStore.index('date').openCursor(IDBKeyRange.bound(date+"00", date+"23"), 'next').onsuccess = function(event) {
+				  var cursor = event.target.result;
+				  if (cursor) {
+					 $("tbody tr td."+cursor.key.slice(8,10)+":nth-child("+(columnNumber)+")", $("#week-schedule")).removeClass("not-filled").addClass("filled");
 					 cursor.continue();
 				  }
 				}; 
 			}
 
-			function removeFromDB(tableName, itemId){
-				var request = db.transaction([tableName], "readwrite")
+			function removeFromDB(tableName, itemId, callback = false){
+				var transaction = db.transaction([tableName], "readwrite");
+				var request = transaction
 				          .objectStore(tableName)
 				          .delete(itemId);
 				  request.onsuccess = function(event) {
 				  
-				  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").replace(/ \(.*\)/, "").split("/");
-				  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd
-				  loadFromDBToDailyTable(tableName, prefixNow);
-				  };		
+					  var displayDate = $('.schedule-day .period-schedule').text().replace("Data: ", "").replace(/ \(.*\)/, "").split("/");
+					  var prefixNow = displayDate[2] + "" + displayDate[1] + "" + displayDate[0]; //yyyymmdd
+					  loadFromDBToDailyTable(tableName, prefixNow);			
+				  };
+
+				  transaction.oncomplete = function(event) {
+						if(callback != false) {
+							callback();
+						}		
+				  };	
 			}
 
 			function emptyDiv(tableName){
@@ -176,7 +225,8 @@ $( document ).ready(function() {
 							"Agendar": function() {
 							  var toSave = {'date': ""+objThis.data("date"), 'time': objThis.data("time"), 'customer': parseInt($("#combobox").val())};
 							  addToScheduledTime(toSave);
-							  removeFromDB("freeTime", objThis.data("id"));
+							  
+							  objThis.parents("p").remove();
 							  				
 							  loadFromDBToDailyTable("scheduledTime", prefixNow);
 							  loadWeekSchedule(prefixNow);
@@ -199,7 +249,8 @@ $( document ).ready(function() {
 										};
 										
 										addToBlockedTime(toSave);
-										removeFromDB("freeTime", objThis.data("id"));
+
+										objThis.parents("p").remove();
 
 										loadFromDBToDailyTable("blockedTime", prefixNow);
 									 	loadWeekSchedule(prefixNow);
@@ -236,12 +287,14 @@ $( document ).ready(function() {
 						  modal: true,
 						  buttons: {
 							"Sim": function() {
-							  var toSave = {'date': ""+objThis.data("date"), 'time': objThis.data("time")};
-							  addToFreeTime(toSave);
-							  removeFromDB("blockedTime", objThis.data("id"));
-				           var d = today();
-							  var prefixNow = d.toISOString().slice(0,10).replace(/-/g,""); //yyyymmdd					  
-							  loadFromDBToDailyTable("freeTime", prefixNow);
+							  removeFromDB("blockedTime", objThis.data("id"), function() {
+								  var d = today();
+								  var prefixNow = d.toISOString().slice(0,10).replace(/-/g,""); //yyyymmdd					  
+								  
+								  loadFreeTimeToDailyTable(prefixNow);
+
+							  });
+
 							  $( this ).dialog( "close" );
 							},
 							"Manter bloqueado": function() {
@@ -298,7 +351,7 @@ $( document ).ready(function() {
 			}
 
 			function scheculerSlider() {
-				$('.slider--prev, .slider--next', $(".schedule-day")).click(function(e) {
+				$('.slider--prev, .slider--next', $(".schedule-day")).unbind("click").click(function(e) {
 					var objThis = $(e.target);
 					var increment = 1;
 					if(objThis.is(".slider--prev") || objThis.parents(".slider--prev").length > 0) {
@@ -312,7 +365,7 @@ $( document ).ready(function() {
 					loadDaySchedule(toDate.toISOString().slice(0,10).replace(/-/g,""));
 				});
 
-				$('.slider--prev, .slider--next', $(".schedule-week")).click(function(e) {
+				$('.slider--prev, .slider--next', $(".schedule-week")).unbind("click").click(function(e) {
 					var objThis = $(e.target);
 					var increment = 7;
 					if(objThis.is(".slider--prev") || objThis.parents(".slider--prev").length > 0) {

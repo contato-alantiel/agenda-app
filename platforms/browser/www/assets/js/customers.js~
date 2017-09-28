@@ -188,6 +188,24 @@ $( document ).ready(function() {
 			var objThis = $(e.target);
 
 			alert(objThis.attr('id'));
+
+			$("#dialog-detail-img img").attr('src', objThis.attr('src'));
+
+			$("#dialog-detail-img").dialog({
+				resizable: true,
+				height: "auto",
+				width: "auto",
+				modal: true,
+				buttons: {
+					"Remover": function() {
+					  
+					  $( this ).dialog( "close" );
+					},
+					"Fechar": function() {
+					  $( this ).dialog( "close" );
+					}
+				}
+			});
 		});
 	}
 

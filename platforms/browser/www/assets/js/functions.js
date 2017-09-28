@@ -80,18 +80,17 @@ document.addEventListener("deviceready", function () {
 	document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 
 	var successLoginReset = function(offline = false) {
-		createFreeTime(db, function() {
-			setTimeout(function(){ 
-				loadCustomerFromBackup(db, offline);
-				loadScheduledTimeFromBackup(db, offline);
-				loadBlockedTimeFromBackup(db, offline);
-			}, 2000);
+		setTimeout(function(){ 
+			loadCustomerFromBackup(db, offline);
+			loadScheduledTimeFromBackup(db, offline);
+			loadBlockedTimeFromBackup(db, offline);
+		}, 2000);
 
-			setTimeout(function(){
-				alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
-				successLoginCallback();
-			}, 5000);
-		});
+		setTimeout(function(){
+			alert('Restauração realizada, para melhor desempenho, faça novo login com seu usuário comum!');
+			successLoginCallback();
+		}, 5000);
+
 	}
 
 	var successLoginCallback = function() {

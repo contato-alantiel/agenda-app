@@ -187,11 +187,23 @@ $( document ).ready(function() {
 		$(".information-images img").unbind('click').click(function(e) {
 			var objThis = $(e.target);
 
-			alert(objThis.attr('id'));
-
 			$("#dialog-detail-img img").attr('src', objThis.attr('src'));
 
-			$("#dialog-detail-img").dialog();
+			$("#dialog-detail-img").dialog({
+				resizable: true,
+				height: "auto",
+				width: "auto",
+				modal: true,
+				buttons: {
+					"Remover": function() {
+					  $("#" + objThis.attr('id')).remove();
+					  $( this ).dialog( "close" );
+					},
+					"Fechar": function() {
+					  $( this ).dialog( "close" );
+					}
+				}
+			});
 		});
 	}
 
